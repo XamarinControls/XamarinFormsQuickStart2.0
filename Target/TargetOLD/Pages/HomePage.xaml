@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:ContentPageBase xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+		     xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"             
+		     xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             x:Class="Target.Pages.HomePage"
+             x:TypeArguments="vms:HomePageViewModel"
+             xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
+             xmlns:vms="clr-namespace:Target.ViewModels;assembly=Target"
+             xmlns:views="clr-namespace:Target.Pages;assembly=Target">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ffimageloadingsvg:SvgImageSourceConverter x:Key="SvgImageSourceConverter"></ffimageloadingsvg:SvgImageSourceConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
+            <ffimageloadingsvg:SvgCachedImage
+                x:Name="ffimage"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                WidthRequest="60" HeightRequest="60"
+                Source="{Binding SourceImg, Converter={StaticResource SvgImageSourceConverter}}"/>
+            <Label Text="{Binding Greeting}" FontSize="{Binding FontSize}"/>
+            <Button x:Name="btnOrg" Text="Organization"></Button>
+            <Button x:Name="btnResync" Text="Resync"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</views:ContentPageBase>
