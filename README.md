@@ -27,7 +27,7 @@
 ## Works Using:
 * Android
 * iOS
-* UWP
+* UWP (You must be running Fall Creators Update)
 
 ## My System
 * Windows 10 Professional with Fall Creator's update
