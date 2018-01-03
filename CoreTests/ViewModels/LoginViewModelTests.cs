@@ -10,7 +10,7 @@ using UnitTests.MockFactories;
 using UnitTests.MockServices;
 using System.Reactive.Linq;
 
-namespace Tests.ViewModels
+namespace CoreTests.ViewModels
 {
     [TestClass]
     public class LoginViewModelTests
