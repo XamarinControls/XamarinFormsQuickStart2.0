@@ -27,11 +27,11 @@
 ## Works Using:
 * Android
 * iOS
-* UWP (You must be running Fall Creators Update)
+* UWP (You must be running on Windows 10 with Fall Creators Update)
 
-## My System
+## My Environment
 * Windows 10 Professional with Fall Creator's update
-* Visual Studio Enterprise v15.4.3
+* Visual Studio Enterprise v15.5.2
 
 ## Notes
 * I'm not using ReactiveUI routing because my understanding is that it doesn't work with MasterDetailPage according to [this](https://stackoverflow.com/questions/28624011/xamarin-form-reactive-ui-masterdetailpage) Stack Overflow.  I tried anyway but couldn't get it working.
