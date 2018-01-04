@@ -39,8 +39,8 @@ namespace Target.ViewModels
             get { return isTermsOn; }
             set { this.RaiseAndSetIfChanged(ref isTermsOn, value); }
         }
-        public AboutPageViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory)
-            : base(settingsService, settingsFactory)
+        public AboutPageViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory, IDefaultsFactory defaultsFactory)
+            : base(settingsService, settingsFactory, defaultsFactory)
         {
             Greeting = "About Page";
             InitializeSettings();
@@ -71,12 +71,12 @@ namespace Target.ViewModels
         }
         private void InitializeSettings()
         {
-            if (Constants.IsTermsPageEnabled)
+            if (defaultsFactory.GetIsTermsPageEnabled())
             {
                 IsTermsOn = true;
             }
             Version = App.Version;
-            AppName = Constants.AppName;
+            AppName = defaultsFactory.GetAppName();
         }
     }
 }

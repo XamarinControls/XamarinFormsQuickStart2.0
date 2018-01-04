@@ -10,7 +10,7 @@ namespace UnitTests.MockFactories
 {
     class MockSettingsFactory : ISettingsFactory
     {
-        public string KeyName => throw new NotImplementedException();
+        public string KeyName => "settings";
 
         public Settings GetSettings()
         {

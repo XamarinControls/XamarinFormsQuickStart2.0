@@ -19,7 +19,7 @@ namespace Target.Pages
         {
             InitializeComponent();
             ViewModel = (HomePageViewModel)App.Container.Resolve<IHomePageViewModel>();
-            this.Title = Constants.AppName;
+            this.Title = ViewModel.defaultsFactory.GetAppName();
             this
                 .WhenActivated(
                     disposables =>

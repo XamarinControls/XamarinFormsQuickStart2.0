@@ -7,8 +7,8 @@ namespace Target.ViewModels
 {
     public class ResyncPageViewModel : BaseViewModel, IResyncPageViewModel
     {
-        public ResyncPageViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory)
-            : base(settingsService, settingsFactory)
+        public ResyncPageViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory, IDefaultsFactory defaultsFactory)
+            : base(settingsService, settingsFactory, defaultsFactory)
         {
             Greeting = "Resync Page";
         }

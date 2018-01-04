@@ -23,6 +23,7 @@ namespace UnitTests.MockServices
 
         public Task<ISettings> GetSettings()
         {
+            // Task<T>.Factory.StartNew(() => T) is how you return a task
             return Task<ISettings>.Factory.StartNew(() => new Settings() {
                 AgreedToTermsDate = "",
                 FontSize = 16,

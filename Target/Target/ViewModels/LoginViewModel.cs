@@ -12,10 +12,10 @@ namespace Target.ViewModels
     {
 
         private readonly ReactiveCommand<Unit, Unit> loginCommand;
-        public LoginViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory)
-            :base(settingsService, settingsFactory )
+        public LoginViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory, IDefaultsFactory defaultsFactory)
+            :base(settingsService, settingsFactory, defaultsFactory )
         {
-            Greeting = "Welcome to " + Constants.AppName + "!";
+            Greeting = "Welcome to " + defaultsFactory.GetAppName() + "!";
             var canLogin = Observable.Return<bool>(true); // you could do some logic here instead
             this.loginCommand = ReactiveCommand.CreateFromObservable(
                 this.LoginAsync,

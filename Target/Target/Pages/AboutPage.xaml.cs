@@ -25,7 +25,7 @@ namespace Target.Pages
             InitializeComponent();
             ViewModel = (AboutPageViewModel)App.Container.Resolve<IAboutPageViewModel>();
             
-            if (Constants.IsTermsPageEnabled)
+            if (ViewModel.defaultsFactory.GetIsTermsPageEnabled())
             {
                 policypage = (Page)App.Container.Resolve<IPolicyPage>();
                 termspage = (Page)App.Container.Resolve<ITermsPage>();

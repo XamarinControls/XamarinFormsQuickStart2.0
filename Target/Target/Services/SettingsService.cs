@@ -6,6 +6,7 @@ using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reactive.Linq;
+using Xamarin.Forms;
 
 namespace Target.Services
 {
@@ -39,7 +40,8 @@ namespace Target.Services
         {
             settingsFactory.SetDefaults();
             var settings = settingsFactory.GetSettings();
-            return await iSQLiteRepository.Create<Settings>(_KeyName, settings);
+            var returnItem = await iSQLiteRepository.Create<Settings>(_KeyName, settings);
+            return returnItem;
         }
         public async Task<Unit> CreateSetting(Settings settings)
         {

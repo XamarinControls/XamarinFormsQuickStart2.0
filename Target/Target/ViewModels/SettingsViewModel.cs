@@ -42,8 +42,8 @@ namespace Target.ViewModels
         public ReactiveCommand IsManualFontOnClicked => this.isManualFontOnClicked;
         private readonly ReactiveCommand fontSliderChanged;
         public ReactiveCommand FontSliderChanged => this.fontSliderChanged;
-        public SettingsViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory)
-            : base(settingsService, settingsFactory)
+        public SettingsViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory, IDefaultsFactory defaultsFactory)
+            : base(settingsService, settingsFactory, defaultsFactory)
         {
             Greeting = "Settings Page";
             
@@ -57,7 +57,7 @@ namespace Target.ViewModels
         {
             var setting = _settingsFactory.GetSettings();
             setting.IsManualFont = IsManualFontOn;
-            if (!IsManualFontOn) FontSize = 16;
+            if (!IsManualFontOn) FontSize = defaultsFactory.GetFontSize();
             setting.FontSize = FontSize;
             var settings = await _settingsService.CreateSetting(setting);            
         }

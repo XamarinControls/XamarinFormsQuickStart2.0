@@ -23,7 +23,7 @@ namespace Target.Pages
             InitializeComponent();
             ViewModel = (MasterListViewModel)App.Container.Resolve<IMasterListViewModel>();
             //this.BindingContext = vm;
-            Title = Constants.AppName;
+            Title = ViewModel.defaultsFactory.GetAppName();
 
             var dtemplate = new DataTemplate(() =>
             {

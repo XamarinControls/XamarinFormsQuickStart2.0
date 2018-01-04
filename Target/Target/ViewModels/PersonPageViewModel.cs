@@ -7,8 +7,8 @@ namespace Target.ViewModels
 {
     public class PersonPageViewModel : BaseViewModel, IPersonPageViewModel
     {
-        public PersonPageViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory)
-            : base(settingsService, settingsFactory)
+        public PersonPageViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory, IDefaultsFactory defaultsFactory)
+            : base(settingsService, settingsFactory, defaultsFactory)
         {
             Greeting = "Person Page";
         }

@@ -20,8 +20,8 @@ namespace Target.ViewModels
             set { this.RaiseAndSetIfChanged(ref sourceImg, value); }
         }
 
-        public HomePageViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory)
-            : base(settingsService, settingsFactory)
+        public HomePageViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory, IDefaultsFactory defaultsFactory)
+            : base(settingsService, settingsFactory, defaultsFactory)
         {
             sourceImg = "resource://Target.Resources.ic_home_black_36px.svg";
         }

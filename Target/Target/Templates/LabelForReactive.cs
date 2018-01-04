@@ -13,10 +13,11 @@ namespace Target.Templates
         Label lbl;
         public LabelForReactive()
         {
+            var defaultsFactory = App.Container.Resolve<IDefaultsFactory>();
             ViewModel = (MasterPageItem)this.BindingContext;
             lbl = new Label()
             {
-                TextColor = Constants.SideMenuTextColor,
+                TextColor = defaultsFactory.GetSideMenuTextColor(),
                 VerticalOptions = LayoutOptions.Center,
                 HorizontalOptions = LayoutOptions.StartAndExpand
             };

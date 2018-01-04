@@ -9,10 +9,10 @@ namespace Target.ViewModels
 {
     public class LogoutPageViewModel : BaseViewModel, ILogoutPageViewModel
     {
-        public LogoutPageViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory)
-            : base(settingsService, settingsFactory)
+        public LogoutPageViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory, IDefaultsFactory defaultsFactory)
+            : base(settingsService, settingsFactory, defaultsFactory)
         {
-            Greeting = $"Leaving {Constants.AppName}?";
+            Greeting = $"Leaving {defaultsFactory.GetAppName()}?";
         }
     }
 }

@@ -1,11 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<views:ContentPageBase xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Target.Pages.GoodByePage">
+             x:Class="Target.Pages.GoodByePage"
+             x:TypeArguments="vms:GoodByePageViewModel"
+             xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
+             xmlns:vms="clr-namespace:Target.ViewModels;assembly=Target"
+             xmlns:views="clr-namespace:Target.Pages;assembly=Target">
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" VerticalOptions="Center">
             <Label x:Name="lblThanks" HorizontalOptions="CenterAndExpand" FontSize="Large"/>
             <Label Text="GoodBye" HorizontalOptions="CenterAndExpand" FontSize="Large"/>
         </StackLayout>
     </ContentPage.Content>
-</ContentPage>
+</views:ContentPageBase>

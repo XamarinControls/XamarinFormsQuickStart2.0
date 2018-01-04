@@ -80,7 +80,7 @@ namespace Target.Pages
 
             fontSlider = new Slider
             {
-                Maximum = Constants.FontSizeMax,
+                Maximum = ViewModel.defaultsFactory.GetFontSizeMax(),
                 Minimum = 12,
                 VerticalOptions = LayoutOptions.FillAndExpand,
                 HorizontalOptions = LayoutOptions.FillAndExpand

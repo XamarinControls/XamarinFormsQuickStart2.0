@@ -32,8 +32,8 @@ namespace Target.ViewModels
             }
             set { this.RaiseAndSetIfChanged(ref _items, value); }
         }
-        public MasterListViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory)
-            : base(settingsService, settingsFactory)
+        public MasterListViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory, IDefaultsFactory defaultsFactory)
+            : base(settingsService, settingsFactory, defaultsFactory)
         {
             MessagingCenter.Subscribe<ISettingsPage>(this, "mSettingsFontChanged", (sender) =>
             {
@@ -93,7 +93,7 @@ namespace Target.ViewModels
                     TargetType = typeof(ActivitiesPage),
                     FontSize = size
                 });
-                if (Constants.IsLoginPageEnabled && App.loggedIn)
+                if (defaultsFactory.GetIsLoginPageEnabled() && App.loggedIn)
                 {
                     _items.Add(new MasterPageItem()
                     {
@@ -105,7 +105,7 @@ namespace Target.ViewModels
                 }
                 else
                 {
-                    if(Constants.IsLoginPageEnabled)
+                    if(defaultsFactory.GetIsLoginPageEnabled())
                     {
                         _items.Add(new MasterPageItem()
                         {

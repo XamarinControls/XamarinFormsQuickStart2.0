@@ -10,16 +10,16 @@
 
 ## Pages:
 * About Page 
-* Terms Page (to disable set IsTermsPageEnabled to false  in Constants.cs)
-* Policy Page (to disable set IsTermsPageEnabled to false  in Constants.cs)
-* Login Page (easily turn off in Constants.cs)
+* Terms Page (to disable set IsTermsPageEnabled to false  in Target\Factories\DefaultsFactory.cs)
+* Policy Page (to disable set IsTermsPageEnabled to false  in Target\Factories\DefaultsFactory.cs)
+* Login Page (easily turn off in Target\Factories\DefaultsFactory.cs)
 * Settings Page
 * Home Page
 
 ## Features:
 * SVG icons
 * User defined font size
-* Base level theming via Constants.cs
+* Base level theming via Target\Factories\DefaultsFactory.cs
 * Login button has a random chance of working, allowing you to setup failure logic even though no authentication system is being called yet.
 * User settings are stored using Akavache (Sqlite)
 * About, Policy, and Terms page allow you to use HTML

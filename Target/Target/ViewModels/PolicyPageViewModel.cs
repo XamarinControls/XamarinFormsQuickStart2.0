@@ -17,8 +17,8 @@ namespace Target.ViewModels
             get { return htmlSource; }
             set { this.RaiseAndSetIfChanged(ref htmlSource, value); }
         }
-        public PolicyPageViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory)
-            : base(settingsService, settingsFactory)
+        public PolicyPageViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory, IDefaultsFactory defaultsFactory)
+            : base(settingsService, settingsFactory, defaultsFactory)
         {
             Greeting = "Privacy Policy";
             HTMLSource = HTMLSource ?? new HtmlWebViewSource();

@@ -26,6 +26,7 @@ namespace Target.Pages
     {
         
         NavigationPage _homePage = new NavigationPage(new HomePage());
+
         public MasterPage()
         {
             InitializeComponent();
@@ -35,11 +36,12 @@ namespace Target.Pages
             {
                 this.Detail = _homePage;
             });
-            _homePage.BarBackgroundColor = Constants.ToolbarColor;
-            _homePage.BarTextColor = Constants.ToolbarTextColor;
+            
+            _homePage.BarBackgroundColor = ViewModel.defaultsFactory.GetToolbarColor();
+            _homePage.BarTextColor = ViewModel.defaultsFactory.GetToolbarTextColor();
             this.Detail = _homePage;
-            masterPage.BackgroundColor = Constants.SideMenuColor;
-            masterPage.ListView.BackgroundColor = Constants.SideMenuColor;
+            masterPage.BackgroundColor = ViewModel.defaultsFactory.GetSideMenuColor();
+            masterPage.ListView.BackgroundColor = ViewModel.defaultsFactory.GetSideMenuColor();
 
             this
                 .WhenActivated(
@@ -86,8 +88,8 @@ namespace Target.Pages
             if (e.SelectedItem is MasterPageItem item)
             {
                 var nextPage = new NavigationPage((Page)Activator.CreateInstance(item.TargetType));
-                nextPage.BarBackgroundColor = Constants.ToolbarColor;
-                nextPage.BarTextColor = Constants.ToolbarTextColor;
+                nextPage.BarBackgroundColor = ViewModel.defaultsFactory.GetToolbarColor();
+                nextPage.BarTextColor = ViewModel.defaultsFactory.GetToolbarTextColor();
                 Detail = nextPage;
                 masterPage.ListView.SelectedItem = null;
                 IsPresented = false;

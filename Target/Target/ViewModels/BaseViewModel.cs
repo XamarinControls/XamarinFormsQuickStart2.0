@@ -9,6 +9,7 @@ namespace Target.ViewModels
     {
         public ISettingsFactory _settingsFactory;
         public ISettingsService _settingsService;
+        public readonly IDefaultsFactory defaultsFactory;
         private string toastMessage;
         public string ToastMessage
         {
@@ -42,12 +43,11 @@ namespace Target.ViewModels
         }
 
         protected readonly ViewModelActivator viewModelActivator = new ViewModelActivator();
-        public BaseViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory)
+        public BaseViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory, IDefaultsFactory defaultsFactory)
         {
             _settingsFactory = settingsFactory;
             _settingsService = settingsService;
-            //_settingsService = _settingsService ?? App.Container.Resolve<ISettingsService>();
-            //_settingsFactory = _settingsFactory ?? App.Container.Resolve<ISettingsFactory>();
+            this.defaultsFactory = defaultsFactory;
             var fireandforget = Task.Run(async () => await InitializeSettings()); 
         }
         private async Task InitializeSettings()

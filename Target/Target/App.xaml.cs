@@ -29,13 +29,13 @@ namespace Target
         public static IContainer Container { get; set; }
         ISettingsFactory _settingsFactory;
         ISettingsService _settingsService;
+        IDefaultsFactory defaultsFactory;
         Settings setting;
         public App()
         {
             InitializeComponent();
-           
             SetupIOC();
-
+            defaultsFactory = App.Container.Resolve<IDefaultsFactory>();
             MessagingCenter.Subscribe<ILoginViewModel, bool>(this, "LoginStatus", (sender, args) =>
             {
                 loggedIn = args;
@@ -56,7 +56,7 @@ namespace Target
             });
             MessagingCenter.Subscribe<ITermsPage>(this, "mTermsAgreed", (sender) =>
             {
-                if (Constants.IsLoginPageEnabled)
+                if (defaultsFactory.GetIsLoginPageEnabled())
                 {
                     loadLoginPage();
                 } 
@@ -76,7 +76,7 @@ namespace Target
             
             setting = _settingsFactory.GetSettings();
 
-            if (Constants.IsTermsPageEnabled)
+            if (defaultsFactory.GetIsTermsPageEnabled())
             {
                 if (string.IsNullOrEmpty(setting.AgreedToTermsDate))
                 {
@@ -100,7 +100,7 @@ namespace Target
                 ContinueWithoutTerms();
 
             }
-            if (Constants.CheckInternet && setting.ShowConnectionErrors)
+            if (defaultsFactory.GetCheckInternet() && setting.ShowConnectionErrors)
             {
                 if (!CrossConnectivity.Current.IsConnected)
                 {
@@ -117,7 +117,7 @@ namespace Target
             }
             CrossConnectivity.Current.ConnectivityChanged += ConnectionError;
             var wifi = Plugin.Connectivity.Abstractions.ConnectionType.WiFi;
-            if (Constants.ShowWifiErrors)
+            if (defaultsFactory.GetShowWifiErrors())
             {
                 var connectionTypes = CrossConnectivity.Current.ConnectionTypes;
                 if (!connectionTypes.Contains(wifi))
@@ -139,7 +139,7 @@ namespace Target
 
         private void ContinueWithoutTerms()
         {
-            if (Constants.IsLoginPageEnabled)
+            if (defaultsFactory.GetIsLoginPageEnabled())
             {
                 loadLoginPage();                
             }
@@ -180,8 +180,7 @@ namespace Target
             MainPage = loginPage;
         }
         private void SetupIOC()
-        {
-            var dbpath = DependencyService.Get<IPlatformStuff>().GetLocalFilePath(Constants.AppName + ".db3");
+        {            
             var builder = new ContainerBuilder();
             builder.RegisterType<MasterPage>().As<IMasterPage>();            
             builder.RegisterType<MasterPageViewModel>().As<IMasterPageViewModel>();
@@ -193,13 +192,11 @@ namespace Target
             builder.RegisterType<HomePage>().As<IHomePage>();
             builder.RegisterType<SettingsService>().As<ISettingsService>().SingleInstance().AutoActivate();
             builder.RegisterType<SettingsFactory>().As<ISettingsFactory>().SingleInstance();
-            if (Constants.IsLoginPageEnabled)
-            {
-                builder.RegisterType<LoginPage>().As<ILoginPage>();
-                builder.RegisterType<LoginViewModel>().As<ILoginViewModel>();
-                builder.RegisterType<LogoutPageViewModel>().As<ILogoutPageViewModel>();
-                builder.RegisterType<LogoutPage>().As<ILogoutPage>();
-            }
+            builder.RegisterType<DefaultsFactory>().As<IDefaultsFactory>().SingleInstance();
+            builder.RegisterType<LoginPage>().As<ILoginPage>();
+            builder.RegisterType<LoginViewModel>().As<ILoginViewModel>();
+            builder.RegisterType<LogoutPageViewModel>().As<ILogoutPageViewModel>();
+            builder.RegisterType<LogoutPage>().As<ILogoutPage>();
             builder.RegisterType<SettingsViewModel>().As<ISettingsViewModel>();
             builder.RegisterType<HomePageViewModel>().As<IHomePageViewModel>();
             builder.RegisterType<MasterListViewModel>().As<IMasterListViewModel>();
@@ -213,16 +210,13 @@ namespace Target
             builder.RegisterType<PaddingTopBottomConverter>().As<IPaddingTopBottomConverter>();
             builder.RegisterType<ReverseBoolConverter>().As<IReverseBoolConverter>();
             builder.RegisterType<AboutPage>().As<IAboutPage>();
-            if (Constants.IsTermsPageEnabled)
-            {
-                builder.RegisterType<TermsPage>().As<ITermsPage>();
-                builder.RegisterType<TermsPageViewModel>().As<ITermsPageViewModel>();
-                builder.RegisterType<PolicyPageViewModel>().As<IPolicyPageViewModel>();
-                builder.RegisterType<PolicyPage>().As<IPolicyPage>();                
-            }
-            
+            builder.RegisterType<TermsPage>().As<ITermsPage>();
+            builder.RegisterType<TermsPageViewModel>().As<ITermsPageViewModel>();
+            builder.RegisterType<PolicyPageViewModel>().As<IPolicyPageViewModel>();
+            builder.RegisterType<PolicyPage>().As<IPolicyPage>();
             builder.RegisterType<AboutPageViewModel>().As<IAboutPageViewModel>();
             builder.RegisterType<GoodByePage>().As<IGoodByePage>();
+            builder.RegisterType<GoodByePageViewModel>().As<IGoodByePageViewModel>();
             builder.RegisterType<SvgImageSourceConverterForReactive>().As<ISvgImageSourceConverterForReactive>();
             ;
 

@@ -7,15 +7,22 @@ using System.Threading.Tasks;
 using System.Reactive.Linq;
 using System.Reactive;
 using Newtonsoft.Json;
+using Xamarin.Forms;
 //using Plugin.GoogleAnalytics;
 
 namespace Target.Repositories
 {
     public class SQLiteRepository : ISQLiteRepository
     {
+        private readonly IDefaultsFactory defaultsFactory;
+        public SQLiteRepository(IDefaultsFactory defaultsFactory)
+        {
+            this.defaultsFactory = defaultsFactory;
+            var dbpath = DependencyService.Get<IPlatformStuff>().GetLocalFilePath(defaultsFactory.GetAppName() + ".db3");
+        }
         public async Task<Unit> Create<T>(string name, T obj)
         {
-            BlobCache.ApplicationName = Constants.AppName;
+            BlobCache.ApplicationName = defaultsFactory.GetAppName();
             Unit returnval;
             try
             {
@@ -35,12 +42,12 @@ namespace Target.Repositories
         }
         public async Task<T> Get<T>(string name)
         {
-            BlobCache.ApplicationName = Constants.AppName;
+            BlobCache.ApplicationName = defaultsFactory.GetAppName();
             return await BlobCache.UserAccount.GetObject<T>(name);
         }
         public async Task<IEnumerable<T>> GetAll<T>()
         {
-            BlobCache.ApplicationName = Constants.AppName;
+            BlobCache.ApplicationName = defaultsFactory.GetAppName();
             return await BlobCache.UserAccount.GetAllObjects<T>();
         }
     }
