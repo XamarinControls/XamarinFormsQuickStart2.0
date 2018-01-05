@@ -23,6 +23,7 @@
 * Login button has a random chance of working, allowing you to setup failure logic even though no authentication system is being called yet.
 * User settings are stored using Akavache (Sqlite)
 * About, Policy, and Terms page allow you to use HTML
+* Unit Tests (not much code coverage but getting there)
 
 ## Works Using:
 * Android
