@@ -22,14 +22,6 @@ namespace Target.ViewModels
             set { this.RaiseAndSetIfChanged(ref isManualFontOn, value); }
         }
 
-        //bool isSwitchOn;
-        //public bool IsSwitchOn
-        //{
-        //    get { return isSwitchOn; }
-        //    set { this.RaiseAndSetIfChanged(ref isSwitchOn, value); }
-        //}
-        
-
         private bool showConnectionErrors;
         public bool ShowConnectionErrors
         {
@@ -40,11 +32,7 @@ namespace Target.ViewModels
        
         private readonly ReactiveCommand showConnectionErrorsCommand;
         public ReactiveCommand ShowConnectionErrorsCommand => this.showConnectionErrorsCommand;
-
-        //private readonly ReactiveCommand isManualFontOnClicked;
-        //public ReactiveCommand IsManualFontOnClicked => this.isManualFontOnClicked;
-
-        // using the following command setup this way allows 2-way binding but doesn't allow you to invoke it from the view
+        
         public ReactiveCommand IsManualFontOnClicked
         {
             get;
@@ -96,7 +84,6 @@ namespace Target.ViewModels
             var settings = await _settingsService.GetSettings();
             isManualFontOn = settings.IsManualFont;
             ShowConnectionErrors = settings.ShowConnectionErrors;
-            // need to reverse this so it makes more sence later when I test it
             _isManualFontOnForBothProductionAndTesting = IsManualFontOn;
         }
     }

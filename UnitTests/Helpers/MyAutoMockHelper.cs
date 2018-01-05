@@ -28,6 +28,16 @@ namespace UnitTests.Helpers
             _defaultFontSizeMax = defaultsFactory.GetFontSizeMax();
             
         }
+        public void SetupMockForViewModels(AutoMock mock)
+        {
+            settingsFactory = new SettingsFactory(defaultsFactory);
+            var sqlLiteRepository = new MockSQLiteRepository(defaultsFactory);
+            var settingsService = new SettingsService(sqlLiteRepository, settingsFactory);
+            mock.Provide<ISettingsService>(settingsService);
+            mock.Provide<ISettingsFactory>(settingsFactory);
+            mock.Provide<IDefaultsFactory>(defaultsFactory);
+
+        }
         public int GetDefaultFontSize()
         {
             return _defaultFontSize;
@@ -48,27 +58,6 @@ namespace UnitTests.Helpers
         {
             return settingsFactory;
         }
-        public void SetupMockForViewModels(AutoMock mock)
-        {
-
-            //var taskCompletion = new TaskCompletionSource<ISettings>();
-            //taskCompletion.SetResult(new Settings()
-            //{
-            //    AgreedToTermsDate = "",
-            //    FontSize = _defaultFontSize,
-            //    IsManualFont = _defaultIsManualFont,
-            //    ShowConnectionErrors = _defaultShowConnectionErrors
-            //});
-
-            //mock.Mock<ISettingsService>().Setup(x => x.GetSettings()).Returns(taskCompletion.Task);
-            
-            settingsFactory = new SettingsFactory(defaultsFactory);
-            var sqlLiteRepository = new MockSQLiteRepository(defaultsFactory);
-            var settingsService = new SettingsService(sqlLiteRepository, settingsFactory);
-            mock.Provide<ISettingsService>(settingsService);
-            mock.Provide<ISettingsFactory>(settingsFactory);            
-            mock.Provide<IDefaultsFactory>(defaultsFactory);
-
-        }
+        
     }
 }
