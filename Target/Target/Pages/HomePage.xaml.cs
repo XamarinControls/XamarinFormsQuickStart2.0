@@ -12,7 +12,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Target.Pages
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    // [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HomePage : ContentPageBase<HomePageViewModel>, IHomePage
     {
         public HomePage()

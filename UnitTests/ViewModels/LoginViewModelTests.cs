@@ -9,10 +9,10 @@ namespace UnitTests.ViewModels
 
     public class LoginViewModelTests
     {
-        MyAutoMockHelper _autoHelper;
+        MyAutoMockHelper _myHelper;
         public LoginViewModelTests()
         {
-            _autoHelper = new MyAutoMockHelper();
+            _myHelper = new MyAutoMockHelper();
         }
         
 
@@ -22,7 +22,7 @@ namespace UnitTests.ViewModels
             using (var mock = AutoMock.GetLoose())
             {
                 // Arrange - configure the mock
-                _autoHelper.SetupMockForViewModels(mock);
+                _myHelper.SetupMockForViewModels(mock);
                 var sut = mock.Create<LoginViewModel>();
 
                 // Act
@@ -39,7 +39,7 @@ namespace UnitTests.ViewModels
             using (var mock = AutoMock.GetLoose())
             {
                 // Arrange - configure the mock
-                _autoHelper.SetupMockForViewModels(mock);
+                _myHelper.SetupMockForViewModels(mock);
                 var sut = mock.Create<LoginViewModel>();
 
                 // Act
@@ -47,8 +47,7 @@ namespace UnitTests.ViewModels
                 var actual = sut.FontSize;
 
                 // Assert     
-                mock.Mock<ISettingsService>().Verify(x => x.GetSettings());
-                Assert.Equal(16, actual);
+                Assert.Equal(_myHelper.GetDefaultFontSize(), actual);
             }
         }
         

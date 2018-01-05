@@ -14,10 +14,11 @@ namespace UnitTests.Services
     {
         private void CreateMock(AutoMock mock)
         {
-            var mockSQLiteRepository = new MockSQLiteRepository();
+            var defaults = new DefaultsFactory();
+            var mockSQLiteRepository = new MockSQLiteRepository(defaults);
             mock.Provide<ISQLiteRepository>(mockSQLiteRepository);
             // using the real settings factory because it's just a POCO
-            var defaults = new DefaultsFactory();
+            
             var realSettingsFactory = new SettingsFactory(defaults);
             mock.Provide<ISettingsFactory>(realSettingsFactory);
         }

@@ -8,7 +8,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Target.Pages
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    // [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ActivitiesPage : ContentPageBase<ActivitiesPageViewModel>, IActivitiesPage
     {
         public ActivitiesPage()

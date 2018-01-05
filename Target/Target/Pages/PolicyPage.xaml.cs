@@ -14,7 +14,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Target.Pages
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    // [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PolicyPage : ContentPageBase<PolicyPageViewModel>, IPolicyPage
     {
         public PolicyPage()

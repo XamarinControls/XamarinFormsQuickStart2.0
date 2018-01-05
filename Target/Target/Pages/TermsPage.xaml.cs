@@ -18,7 +18,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Target.Pages
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    // [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TermsPage : ContentPageBase<TermsPageViewModel>, ITermsPage
     {
         ISettingsFactory _settingsFactory;

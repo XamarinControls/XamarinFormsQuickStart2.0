@@ -11,7 +11,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Target.Pages
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    // [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class GoodByePage : ContentPageBase<GoodByePageViewModel>, IGoodByePage
     {
         public GoodByePage()

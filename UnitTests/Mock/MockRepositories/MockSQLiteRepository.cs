@@ -11,6 +11,11 @@ namespace UnitTests.Mock.MockRepositories
 {
     public class MockSQLiteRepository : ISQLiteRepository
     {
+        IDefaultsFactory defaultsFactory;
+        public MockSQLiteRepository(IDefaultsFactory defaultsFactory)
+        {
+            this.defaultsFactory = defaultsFactory;
+        }
         public async Task<Unit> Create<T>(string name, T obj)
         {            
             Unit returnval;
@@ -22,14 +27,14 @@ namespace UnitTests.Mock.MockRepositories
         public Task<T> Get<T>(string name)
         {
             // Task<T>.Factory.StartNew(() => T) is how you return a task
-            
-                var setting = new Settings()
-                {
-                    AgreedToTermsDate = "",
-                    FontSize = 16,
-                    IsManualFont = false,
-                    ShowConnectionErrors = false
-                };
+
+            var setting = new Settings()
+            {
+                AgreedToTermsDate = "",
+                FontSize = defaultsFactory.GetFontSize(),
+                IsManualFont = defaultsFactory.GetIsManualFont(),
+                ShowConnectionErrors = defaultsFactory.GetShowConnectionErrors()
+             };
                 var newval = (T)Convert.ChangeType(setting, typeof(Settings));
 
             return Task<T>.Factory.StartNew(() => newval);

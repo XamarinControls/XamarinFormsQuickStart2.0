@@ -19,7 +19,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Target.Pages
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    // [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SettingsPage : ContentPageBase<SettingsViewModel>, ISettingsPage
     {        
         Switch showConnectionErrors;
@@ -194,6 +194,13 @@ namespace Target.Pages
                             .Select(x => Unit.Default)
                             .InvokeCommand(ViewModel.FontSliderChanged)
                             .DisposeWith(disposables);
+                        // If the x.isManualFont.IsToggled binding found a couple lines below is one-way, 
+                        // you have to disable // [XamlCompilation(XamlCompilationOptions.Compile)]
+                        // throughout the entire app for the following switch toggle event to work in UWP.
+                        // Currently the x.isManualFont.IsToggled binding is two-way so it's ok to enable xaml compilation.
+                        // Furthermore, if you try and remove the x.isManualFont.IsToggle binding altogether and force the 
+                        // changing of the IsManualFontOn using the IsManualFontOnClicked delegate, then for some reason
+                        // the x.isManualFont.IsToggled won't update the screen and toggle/untoggle the control
                         this.isManualFont.Events().Toggled
                             .Select(x => Unit.Default)
                             .InvokeCommand(ViewModel.IsManualFontOnClicked)

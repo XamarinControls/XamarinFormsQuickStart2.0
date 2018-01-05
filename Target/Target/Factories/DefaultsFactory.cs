@@ -23,7 +23,7 @@ namespace Target.Factories
         private readonly Color _sideMenuTextColor = Color.White;
 
         // Settings Page Defaults
-        private readonly bool _isManualFont = false; // Manual Font switch default setting
+        private readonly bool _isManualFont = true; // Manual Font switch default setting
         private readonly int _fontSize = 17; // default font size of the app
         private readonly int _fontSizeMax = 34;  // maximum font size allowed when user manually changes it
         private readonly bool _showConnectionErrors = false; // Show Connection switch default setting

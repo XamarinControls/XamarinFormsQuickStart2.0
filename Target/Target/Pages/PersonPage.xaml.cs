@@ -15,7 +15,7 @@ using System.Reactive.Disposables;
 
 namespace Target.Pages
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    // [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PersonPage : ContentPageBase<PersonPageViewModel>, IPersonPage
     {
         public PersonPage()

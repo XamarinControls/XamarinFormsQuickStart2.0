@@ -9,7 +9,7 @@ namespace Target.Interfaces
     {
         int FontSize { get; set; }
         bool IsManualFontOn { get; set; }
-        bool IsSwitchOn { get; set; }
+        //bool IsSwitchOn { get; set; }
         bool ShowConnectionErrors { get; set; }
         ReactiveCommand IsManualFontOnClicked { get; }
         ReactiveCommand ShowConnectionErrorsCommand { get; }

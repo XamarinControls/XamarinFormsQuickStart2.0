@@ -13,15 +13,15 @@ namespace Target.Factories
         public SettingsFactory(IDefaultsFactory defaultsFactory)
         {
             this.defaultsFactory = defaultsFactory;
-        }
-        public override string KeyName => "settings";
-        public Settings GetSettings()
-        {
-            if(_settings == null)
+            if (_settings == null)
             {
                 _settings = new Settings() { };
                 SetDefaults();
             }
+        }
+        public override string KeyName => "settings";
+        public Settings GetSettings()
+        {
             return _settings;
         }
         public void SetDefaults()

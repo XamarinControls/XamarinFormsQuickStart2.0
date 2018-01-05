@@ -15,7 +15,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Target.Pages
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    // [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AboutPage : ContentPageBase<AboutPageViewModel>, IAboutPage
     {
         Page termspage;

@@ -21,7 +21,7 @@ using Plugin.Toasts;
 
 namespace Target.Pages
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    // [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MasterPage : MasterDetailPageBase<MasterPageViewModel>,  IMasterPage
     {
         

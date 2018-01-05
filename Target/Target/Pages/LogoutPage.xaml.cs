@@ -16,7 +16,7 @@ using System.Reactive.Linq;
 
 namespace Target.Pages
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    // [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LogoutPage : ContentPageBase<LogoutPageViewModel>, ILogoutPage
     {
         public LogoutPage()
