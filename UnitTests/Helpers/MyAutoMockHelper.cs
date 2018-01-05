@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Target.Factories;
 using Target.Interfaces;
 using Target.Models;
-using UnitTests.MockFactories;
 
 namespace UnitTests.Helpers
 {
@@ -25,10 +24,9 @@ namespace UnitTests.Helpers
             });
 
             mock.Mock<ISettingsService>().Setup(x => x.GetSettings()).Returns(taskCompletion.Task);
-
-            var mockSettingsFactory = new MockSettingsFactory();
-            mock.Provide<ISettingsFactory>(mockSettingsFactory);
             var defaultsFactory = new DefaultsFactory();
+            var settingsFactory = new SettingsFactory(defaultsFactory);
+            mock.Provide<ISettingsFactory>(settingsFactory);            
             mock.Provide<IDefaultsFactory>(defaultsFactory);
 
         }

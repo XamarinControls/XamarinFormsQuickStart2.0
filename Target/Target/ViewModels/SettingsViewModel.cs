@@ -38,8 +38,13 @@ namespace Target.ViewModels
         private readonly ReactiveCommand showConnectionErrorsCommand;
         public ReactiveCommand ShowConnectionErrorsCommand => this.showConnectionErrorsCommand;
 
-        private readonly ReactiveCommand isManualFontOnClicked;
-        public ReactiveCommand IsManualFontOnClicked => this.isManualFontOnClicked;
+        public ReactiveCommand IsManualFontOnClicked
+        {
+            get;
+        }
+
+        //private readonly ReactiveCommand isManualFontOnClicked;
+        //public ReactiveCommand IsManualFontOnClicked => this.isManualFontOnClicked;
         private readonly ReactiveCommand fontSliderChanged;
         public ReactiveCommand FontSliderChanged => this.fontSliderChanged;
         public SettingsViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory, IDefaultsFactory defaultsFactory)
@@ -49,8 +54,9 @@ namespace Target.ViewModels
             
             var fireandforget = Task.Run(async () => await InitializeSettings());
             this.fontSliderChanged = ReactiveCommand.CreateFromTask(async _ =>  await SetFontSize());
-            this.isManualFontOnClicked = ReactiveCommand.CreateFromTask(async _ =>  await SetManualFont());
-            this.showConnectionErrorsCommand = ReactiveCommand.CreateFromTask(async _ =>  await SetShowConnectionErrors());
+            this.IsManualFontOnClicked = ReactiveCommand.CreateFromTask(SetManualFont);
+            
+            this.showConnectionErrorsCommand = ReactiveCommand.CreateFromTask(SetShowConnectionErrors);
 
         }
         private async Task SetManualFont()

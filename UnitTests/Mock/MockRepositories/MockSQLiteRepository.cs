@@ -7,7 +7,7 @@ using Target.Interfaces;
 using Target.Models;
 using System.Linq;
 
-namespace UnitTests.Repositories
+namespace UnitTests.Mock.MockRepositories
 {
     public class MockSQLiteRepository : ISQLiteRepository
     {

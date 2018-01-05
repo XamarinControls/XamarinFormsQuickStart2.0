@@ -1,14 +1,11 @@
 ﻿using Autofac.Extras.Moq;
-using System;
 using System.Reactive;
 using System.Threading.Tasks;
 using Target.Factories;
 using Target.Interfaces;
 using Target.Models;
 using Target.Services;
-using Target.ViewModels;
-using UnitTests.MockFactories;
-using UnitTests.Repositories;
+using UnitTests.Mock.MockRepositories;
 using Xunit;
 
 namespace UnitTests.Services

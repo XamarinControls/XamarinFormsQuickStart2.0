@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Target.Interfaces;
 using Target.Models;
 
-namespace UnitTests.MockServices
+namespace UnitTests.Mock.MockServices
 {
     public class MockSettingsService : ISettingsService
     {

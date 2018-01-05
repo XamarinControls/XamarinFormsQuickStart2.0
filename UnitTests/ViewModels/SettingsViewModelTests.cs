@@ -1,16 +1,19 @@
 ﻿using Autofac.Extras.Moq;
-using Target.Interfaces;
 using Target.ViewModels;
 using Xunit;
 using UnitTests.Helpers;
+using ReactiveUI;
+using System.Reactive.Linq;
+using System.Reactive;
+using Target.Interfaces;
 
 namespace UnitTests.ViewModels
 {
 
-    public class LoginViewModelTests
+    public class SettingsViewModelTests : ReactiveObject
     {
         MyAutoMockHelper _autoHelper;
-        public LoginViewModelTests()
+        public SettingsViewModelTests()
         {
             _autoHelper = new MyAutoMockHelper();
         }
@@ -23,35 +26,33 @@ namespace UnitTests.ViewModels
             {
                 // Arrange - configure the mock
                 _autoHelper.SetupMockForViewModels(mock);
-                var sut = mock.Create<LoginViewModel>();
+                var sut = mock.Create<SettingsViewModel>();
 
                 // Act
                 var actual = sut.Greeting;
 
                 // Assert    
-                Assert.Equal("Welcome to MYAPP!", actual);
+                Assert.Equal("Settings Page", actual);
             }
         }
 
         [Fact]
-        public void WhenInitialized_ShouldSetFontSize()
+        public void WhenManualFont_IsClicked_ShouldSetFontSize()
         {
             using (var mock = AutoMock.GetLoose())
             {
                 // Arrange - configure the mock
                 _autoHelper.SetupMockForViewModels(mock);
-                var sut = mock.Create<LoginViewModel>();
+                var sut = mock.Create<SettingsViewModel>();
 
                 // Act
-                //await Task.Delay(TimeSpan.FromMilliseconds(10));
-                var actual = sut.FontSize;
+                //var actual = sut.FontSize;
 
                 // Assert     
-                mock.Mock<ISettingsService>().Verify(x => x.GetSettings());
-                Assert.Equal(16, actual);
+                Assert.PropertyChanged(sut, "FontSize", () => Observable.Return(Unit.Default).InvokeCommand(sut.IsManualFontOnClicked));
             }
         }
-        
+
     }
 }
 
