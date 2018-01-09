@@ -28,6 +28,7 @@ namespace UnitTests.Helpers
             _defaultFontSizeMax = defaultsFactory.GetFontSizeMax();
             
         }
+
         public void SetupMockForViewModels(AutoMock mock)
         {
             settingsFactory = new SettingsFactory(defaultsFactory);
@@ -36,6 +37,11 @@ namespace UnitTests.Helpers
             mock.Provide<ISettingsService>(settingsService);
             mock.Provide<ISettingsFactory>(settingsFactory);
             mock.Provide<IDefaultsFactory>(defaultsFactory);
+            // the following will allow autofaq to automatically inject IPlatformStuffService
+            // It will also change the normal operation of GetBaseUrl()
+            // since that single method is all we are worried about, no point in creating a 
+            // custom mock service.
+            mock.Mock<IPlatformStuffService>().Setup(x => x.GetBaseUrl()).Returns("some base url");
 
         }
         public int GetDefaultFontSize()

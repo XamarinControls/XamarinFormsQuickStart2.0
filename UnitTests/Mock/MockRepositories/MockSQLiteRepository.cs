@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Target.Interfaces;
 using Target.Models;
 using System.Linq;
+using Target.Factories;
 
 namespace UnitTests.Mock.MockRepositories
 {
@@ -17,7 +18,9 @@ namespace UnitTests.Mock.MockRepositories
             this.defaultsFactory = defaultsFactory;
         }
         public async Task<Unit> Create<T>(string name, T obj)
-        {            
+        {
+            var settingsFactory = new SettingsFactory(defaultsFactory);
+            settingsFactory.SaveSettings(obj as Settings);
             Unit returnval;
             await Task.Delay(TimeSpan.FromMilliseconds(0));
             returnval = Unit.Default;

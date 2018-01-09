@@ -1,6 +1,7 @@
 ﻿using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Reactive;
 using System.Text;
 
 namespace Target.Interfaces
@@ -11,9 +12,9 @@ namespace Target.Interfaces
         bool IsManualFontOn { get; set; }
         //bool IsSwitchOn { get; set; }
         bool ShowConnectionErrors { get; set; }
-        ReactiveCommand IsManualFontOnClicked { get; }
-        ReactiveCommand ShowConnectionErrorsCommand { get; }
-        ReactiveCommand FontSliderChanged { get; }
+        ReactiveCommand<Unit, Unit> IsManualFontOnClicked { get; }
+        ReactiveCommand<Unit, Unit> ShowConnectionErrorsCommand { get; }
+        ReactiveCommand<Unit, Unit> FontSliderChanged { get; }
 
     }
 }

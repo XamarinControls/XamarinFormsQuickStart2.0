@@ -12,7 +12,12 @@ namespace Target.ViewModels
     {
 
         private readonly ReactiveCommand<Unit, Unit> loginCommand;
-        public LoginViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory, IDefaultsFactory defaultsFactory)
+        public LoginViewModel(
+            ISettingsService settingsService,
+            ISettingsFactory settingsFactory,
+            IDefaultsFactory defaultsFactory,
+            IPlatformStuffService platformStuffService
+            )
             :base(settingsService, settingsFactory, defaultsFactory )
         {
             Greeting = "Welcome to " + defaultsFactory.GetAppName() + "!";

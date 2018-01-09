@@ -17,12 +17,17 @@ namespace Target.ViewModels
             get { return htmlSource; }
             set { this.RaiseAndSetIfChanged(ref htmlSource, value); }
         }
-        public PolicyPageViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory, IDefaultsFactory defaultsFactory)
+        public PolicyPageViewModel(
+            ISettingsService settingsService,
+            ISettingsFactory settingsFactory,
+            IDefaultsFactory defaultsFactory,
+            IPlatformStuffService platformStuffService
+            )
             : base(settingsService, settingsFactory, defaultsFactory)
         {
             Greeting = "Privacy Policy";
             HTMLSource = HTMLSource ?? new HtmlWebViewSource();
-            HTMLSource.BaseUrl = DependencyService.Get<IPlatformStuff>().GetBaseUrl();
+            HTMLSource.BaseUrl = platformStuffService.GetBaseUrl();
             HTMLSource.Html = @"
             <html>
             <head>

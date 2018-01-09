@@ -3,54 +3,60 @@ using Target.Interfaces;
 using Target.ViewModels;
 using Xunit;
 using UnitTests.Helpers;
+using Xamarin.Forms;
+using System.Threading.Tasks;
+using System.Reactive.Linq;
 
 namespace UnitTests.ViewModels
 {
 
-    public class LoginViewModelTests
+    public class LoginViewModelTests : BaseViewModel
     {
-        MyAutoMockHelper _myHelper;
-        public LoginViewModelTests()
-        {
-            _myHelper = new MyAutoMockHelper();
-        }
         
-
         [Fact]
-        public void WhenInitialized_ShouldSetGreeting()
+        public void WhenInitialized_ShouldSetDefaults()
         {
             using (var mock = AutoMock.GetLoose())
             {
                 // Arrange - configure the mock
                 _myHelper.SetupMockForViewModels(mock);
                 var sut = mock.Create<LoginViewModel>();
+                var expectedGreeting = "Welcome to MYAPP!";
 
                 // Act
-                var actual = sut.Greeting;
+                var actualGreeting = sut.Greeting;
+                var actualFontSize = sut.FontSize;
 
                 // Assert    
-                Assert.Equal("Welcome to MYAPP!", actual);
+                Assert.Equal(expectedGreeting, actualGreeting);
+                Assert.Equal(_myHelper.GetDefaultFontSize(), actualFontSize);
             }
         }
-
         [Fact]
-        public void WhenInitialized_ShouldSetFontSize()
+        public async Task WhenLoginButton_IsClicked_ShouldEventuallyReturnTrue()
         {
             using (var mock = AutoMock.GetLoose())
             {
                 // Arrange - configure the mock
                 _myHelper.SetupMockForViewModels(mock);
                 var sut = mock.Create<LoginViewModel>();
+                bool sentMessage = false;
+                MessagingCenter.Subscribe<ILoginViewModel, bool>(this, "LoginStatus", (sender, args) => sentMessage = args);
 
                 // Act
-                //await Task.Delay(TimeSpan.FromMilliseconds(10));
-                var actual = sut.FontSize;
+                while (!sentMessage)
+                {
+                    await sut.LoginCommand.Execute().FirstAsync();
+                }
+
 
                 // Assert     
-                Assert.Equal(_myHelper.GetDefaultFontSize(), actual);
+                Assert.True(sentMessage);
+                MessagingCenter.Unsubscribe<ILoginViewModel, bool>(this, "LoginStatus");
             }
         }
         
+
     }
 }
 

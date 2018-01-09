@@ -29,12 +29,17 @@ namespace Target.ViewModels
             get { return isTermsOn; }
             set { this.RaiseAndSetIfChanged(ref isTermsOn, value); }
         }
-        public TermsPageViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory, IDefaultsFactory defaultsFactory)
+        public TermsPageViewModel(
+            ISettingsService settingsService,
+            ISettingsFactory settingsFactory,
+            IDefaultsFactory defaultsFactory,
+            IPlatformStuffService platformStuffService
+            )
             : base(settingsService, settingsFactory, defaultsFactory)
         {
             Greeting = "Terms And Conditions";
             HTMLSource = HTMLSource ?? new HtmlWebViewSource();
-            HTMLSource.BaseUrl = DependencyService.Get<IPlatformStuff>().GetBaseUrl();
+            HTMLSource.BaseUrl = platformStuffService.GetBaseUrl() ;
             //source.Html = @"<html><head></head><body><p>Hi</p></body></html>";
             HTMLSource.Html = @"
             <html>

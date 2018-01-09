@@ -8,7 +8,12 @@ namespace Target.ViewModels
 {
     public class OrganizationPageViewModel : BaseViewModel, IOrganizationPageViewModel
     {
-        public OrganizationPageViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory, IDefaultsFactory defaultsFactory)
+        public OrganizationPageViewModel(
+            ISettingsService settingsService,
+            ISettingsFactory settingsFactory,
+            IDefaultsFactory defaultsFactory,
+            IPlatformStuffService platformStuffService
+            )
             : base(settingsService, settingsFactory, defaultsFactory)
         {
             Greeting = "Organization Page";

@@ -193,6 +193,7 @@ namespace Target
             builder.RegisterType<SettingsService>().As<ISettingsService>().SingleInstance().AutoActivate();
             builder.RegisterType<SettingsFactory>().As<ISettingsFactory>().SingleInstance();
             builder.RegisterType<DefaultsFactory>().As<IDefaultsFactory>().SingleInstance();
+            builder.RegisterType<PlatformStuffService>().As<IPlatformStuffService>();
             builder.RegisterType<LoginPage>().As<ILoginPage>();
             builder.RegisterType<LoginViewModel>().As<ILoginViewModel>();
             builder.RegisterType<LogoutPageViewModel>().As<ILogoutPageViewModel>();

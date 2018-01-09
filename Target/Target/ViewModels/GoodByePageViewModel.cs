@@ -11,7 +11,12 @@ namespace Target.ViewModels
 {
     public class GoodByePageViewModel : BaseViewModel, IGoodByePageViewModel
     {
-        public GoodByePageViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory, IDefaultsFactory defaultsFactory)
+        public GoodByePageViewModel(
+            ISettingsService settingsService,
+            ISettingsFactory settingsFactory,
+            IDefaultsFactory defaultsFactory,
+            IPlatformStuffService platformStuffService
+            )
             : base(settingsService, settingsFactory, defaultsFactory)
         {
         }

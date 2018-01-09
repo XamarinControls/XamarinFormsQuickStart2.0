@@ -13,7 +13,8 @@ namespace Target.ViewModels
 {
     public class SettingsViewModel : BaseViewModel, ISettingsViewModel
     {
-        private bool _isManualFontOnForBothProductionAndTesting;
+        private bool isManualFontOnState;
+        private bool isShowErrorsOnState;
 
         bool isManualFontOn;
         public bool IsManualFontOn
@@ -30,24 +31,29 @@ namespace Target.ViewModels
         }
 
        
-        private readonly ReactiveCommand showConnectionErrorsCommand;
-        public ReactiveCommand ShowConnectionErrorsCommand => this.showConnectionErrorsCommand;
+        private readonly ReactiveCommand<Unit, Unit> showConnectionErrorsCommand;
+        public ReactiveCommand<Unit, Unit> ShowConnectionErrorsCommand => this.showConnectionErrorsCommand;
         
-        public ReactiveCommand IsManualFontOnClicked
+        public ReactiveCommand<Unit, Unit> IsManualFontOnClicked
         {
             get;
         }
+        public ReactiveCommand<Unit, Unit> FontSliderChanged { get; }
 
-
-        private readonly ReactiveCommand fontSliderChanged;
-        public ReactiveCommand FontSliderChanged => this.fontSliderChanged;
-        public SettingsViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory, IDefaultsFactory defaultsFactory)
+        //private readonly ReactiveCommand fontSliderChanged;
+        //public ReactiveCommand FontSliderChanged => this.fontSliderChanged;
+        public SettingsViewModel(
+            ISettingsService settingsService,
+            ISettingsFactory settingsFactory,
+            IDefaultsFactory defaultsFactory,
+            IPlatformStuffService platformStuffService
+            )
             : base(settingsService, settingsFactory, defaultsFactory)
         {
             Greeting = "Settings Page";
             
             var fireandforget = Task.Run(async () => await InitializeSettings());
-            this.fontSliderChanged = ReactiveCommand.CreateFromTask(async _ =>  await SetFontSize());
+            this.FontSliderChanged = ReactiveCommand.CreateFromTask(SetFontSize);
             this.IsManualFontOnClicked = ReactiveCommand.CreateFromTask(SetManualFont);
             this.showConnectionErrorsCommand = ReactiveCommand.CreateFromTask(SetShowConnectionErrors);
 
@@ -55,13 +61,11 @@ namespace Target.ViewModels
         private async Task SetManualFont()
         {
             var setting = _settingsFactory.GetSettings();
-            // I had to use the following _isManualFontOnForBothProductionAndTesting so that
-            // the reactive command IsManualFontOnClicked that kicks off this function
-            // would actually change the value of "FontSize".  It would be easier to use IsManualFontOn
-            // that the property isManualFont.IsToggled in the view changes but this isn't available in a unit test
-            _isManualFontOnForBothProductionAndTesting = !_isManualFontOnForBothProductionAndTesting;
+            // I need this variable to maintain state of the switch for testing,
+            // otherwise only the view maintains the state of the switch.
+            isManualFontOnState = !isManualFontOnState;
             setting.IsManualFont = IsManualFontOn;
-            if (!_isManualFontOnForBothProductionAndTesting) FontSize = defaultsFactory.GetFontSize();
+            if (!isManualFontOnState) FontSize = defaultsFactory.GetFontSize();
             setting.FontSize = FontSize;
             var settings = await _settingsService.CreateSetting(setting);            
         }
@@ -74,17 +78,20 @@ namespace Target.ViewModels
             var settings = await _settingsService.CreateSetting(setting);
         }
         private async Task SetShowConnectionErrors()
-        {
+        {                        
             var setting = _settingsFactory.GetSettings();
-            setting.ShowConnectionErrors = ShowConnectionErrors;
+            isShowErrorsOnState = !isShowErrorsOnState;
+            setting.ShowConnectionErrors = isShowErrorsOnState;
             var settings = await _settingsService.CreateSetting(setting);
+            
         }
         private async Task InitializeSettings()
         {
             var settings = await _settingsService.GetSettings();
             isManualFontOn = settings.IsManualFont;
             ShowConnectionErrors = settings.ShowConnectionErrors;
-            _isManualFontOnForBothProductionAndTesting = IsManualFontOn;
+            isManualFontOnState = IsManualFontOn;
+            isShowErrorsOnState = ShowConnectionErrors;
         }
     }
 }

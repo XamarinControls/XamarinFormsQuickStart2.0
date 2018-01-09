@@ -39,16 +39,17 @@ namespace Target.ViewModels
             get { return isTermsOn; }
             set { this.RaiseAndSetIfChanged(ref isTermsOn, value); }
         }
-        public AboutPageViewModel(ISettingsService settingsService, ISettingsFactory settingsFactory, IDefaultsFactory defaultsFactory)
+        public AboutPageViewModel(
+            ISettingsService settingsService,
+            ISettingsFactory settingsFactory,
+            IDefaultsFactory defaultsFactory,
+            IPlatformStuffService platformStuffService)
             : base(settingsService, settingsFactory, defaultsFactory)
         {
             Greeting = "About Page";
             InitializeSettings();
             HTMLSource = HTMLSource ?? new HtmlWebViewSource();
-            HTMLSource.BaseUrl = DependencyService.Get<IPlatformStuff>().GetBaseUrl();           
-            //var htmlbody = DependencyService.Get<IPlatformStuff>().GetHtmlFileAsString("about.html");
-            //htmlbody = Regex.Replace(htmlbody, "replacevalue", oidcRedirectUrl);
-            //var encodedHtmlBody = "data:text/html;charset=utf-8," +  Uri.EscapeUriString(htmlbody);
+            HTMLSource.BaseUrl = platformStuffService.GetBaseUrl();           
             HTMLSource.Html = @"
             <!DOCTYPE html>
             <html>
