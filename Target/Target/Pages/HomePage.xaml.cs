@@ -19,12 +19,14 @@ namespace Target.Pages
         {
             InitializeComponent();
             ViewModel = (HomePageViewModel)App.Container.Resolve<IHomePageViewModel>();
-            this.Title = ViewModel.Greeting;
+            var orgPage = (Page)App.Container.Resolve<IOrganizationPage>();
+            var resyncPage = (Page)App.Container.Resolve<IResyncPage>();
             this
                 .WhenActivated(
                     disposables =>
                     {
-
+                        this.OneWayBind(this.ViewModel, x => x.Greeting, x => x.Title)
+                            .DisposeWith(disposables);
                         this
                             .OneWayBind(this.ViewModel, x => x.FontSize, x => x.btnResync.FontSize, vmToViewConverterOverride: bindingIntToDoubleConverter)
                             .DisposeWith(disposables);
@@ -34,18 +36,13 @@ namespace Target.Pages
                             .DisposeWith(disposables);
                         this.OneWayBind(ViewModel, vm => vm.FontSize, view => view.ffimage.WidthRequest, x => GetSquaredImageSize(x))
                             .DisposeWith(disposables);
+                        this.btnResync.Events().Clicked
+                            .Subscribe(async (_) => await Navigation.PushAsync(resyncPage))
+                            .DisposeWith(disposables);
+                        this.btnOrg.Events().Clicked
+                            .Subscribe(async (_) => await Navigation.PushAsync(orgPage))
+                            .DisposeWith(disposables);
                     });
-
-            var orgPage = (Page)App.Container.Resolve<IOrganizationPage>();
-            var resyncPage = (Page)App.Container.Resolve<IResyncPage>();
-            btnOrg.Clicked += async (sender, e) =>
-            {
-                await Navigation.PushAsync(orgPage);
-            };
-            btnResync.Clicked += async (sender, e) =>
-            {
-                await Navigation.PushAsync(resyncPage);
-            };
         }
 
     }
