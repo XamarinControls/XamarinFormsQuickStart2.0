@@ -44,10 +44,9 @@ namespace Target.Pages
             
             InitializeComponent();
             bindingPaddingTopBottomConverter = (IBindingTypeConverter)App.Container.Resolve<IPaddingTopBottomConverter>();
-            settings = App.Container.Resolve<ISettingsFactory>().GetSettings();
             ViewModel = (SettingsViewModel)App.Container.Resolve<ISettingsViewModel>();
             
-            var fontSize = settings.FontSize;
+            var fontSize = ViewModel.FontSize;
 
             this.Padding = new Thickness(10, getDevicePadding(), 10, 5);
 
@@ -72,7 +71,7 @@ namespace Target.Pages
 
             fontSliderLabel = new Label
             {
-                Text = $"Custom Font Size is {fontSize}",
+                //Text = $"Custom Font Size is {fontSize}",
                 HorizontalOptions = LayoutOptions.StartAndExpand,
                 VerticalOptions = LayoutOptions.CenterAndExpand
             };
@@ -83,7 +82,7 @@ namespace Target.Pages
                 Maximum = ViewModel.defaultsFactory.GetFontSizeMax(),
                 Minimum = 12,
                 VerticalOptions = LayoutOptions.FillAndExpand,
-                HorizontalOptions = LayoutOptions.FillAndExpand
+                HorizontalOptions = LayoutOptions.FillAndExpand                
             };
 
 
@@ -183,17 +182,17 @@ namespace Target.Pages
                             .DisposeWith(disposables);
                         this.Bind(ViewModel, vm => vm.FontSize, x => x.fontSlider.Value, vmToViewConverterOverride: bindingIntToDoubleConverter, viewToVMConverterOverride: bindingDoubleToIntConverter)
                             .DisposeWith(disposables);
-                        this.fontSlider.Events().ValueChanged
-                            .Throttle(TimeSpan.FromMilliseconds(150), RxApp.MainThreadScheduler)
-                            .Do((x) =>
-                            {
-                                var rounded = Math.Round(x.NewValue);
-                                fontSliderLabel.Text = $"Custom Font Size is {rounded}";
-                                MessagingCenter.Send<ISettingsPage>(this, "mSettingsFontChanged");
-                            })
-                            .Select(x => Unit.Default)
-                            .InvokeCommand(ViewModel.FontSliderChanged)
-                            .DisposeWith(disposables);
+                        //this.fontSlider.Events().ValueChanged
+                        //    .Throttle(TimeSpan.FromMilliseconds(150), RxApp.MainThreadScheduler)
+                        //    .Do((x) =>
+                        //    {
+                        //        var rounded = Math.Round(x.NewValue);
+                        //        fontSliderLabel.Text = $"Custom Font Size is {rounded}";
+                        //        MessagingCenter.Send<ISettingsPage>(this, "mSettingsFontChanged");
+                        //    })
+                        //    .Select(x => Unit.Default)
+                        //    .InvokeCommand(ViewModel.FontSliderChanged)
+                        //    .DisposeWith(disposables);
                         // If the x.isManualFont.IsToggled binding found a couple lines below is one-way, 
                         // you have to disable // [XamlCompilation(XamlCompilationOptions.Compile)]
                         // throughout the entire app for the following switch toggle event to work in UWP.
@@ -202,6 +201,7 @@ namespace Target.Pages
                         // changing of the IsManualFontOn using the IsManualFontOnClicked delegate, then for some reason
                         // the x.isManualFont.IsToggled won't update the screen and toggle/untoggle the control
                         this.isManualFont.Events().Toggled
+                            .Throttle(TimeSpan.FromMilliseconds(150), RxApp.MainThreadScheduler)
                             .Select(x => Unit.Default)
                             .InvokeCommand(ViewModel.IsManualFontOnClicked)
                             .DisposeWith(disposables);
@@ -211,6 +211,9 @@ namespace Target.Pages
                         this
                             .Bind(this.ViewModel, x => x.IsManualFontOn, x => x.isManualFont.IsToggled)
                             .DisposeWith(disposables);
+                        this
+                           .OneWayBind(this.ViewModel, x => x.FontSliderLabel, x => x.fontSliderLabel.Text)
+                           .DisposeWith(disposables);
                         this
                             .OneWayBind(this.ViewModel, x => x.FontSize, x => x.fontSliderLabel.FontSize, vmToViewConverterOverride: bindingIntToDoubleConverter)
                             .DisposeWith(disposables);

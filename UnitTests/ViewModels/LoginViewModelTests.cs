@@ -21,19 +21,16 @@ namespace UnitTests.ViewModels
                 // Arrange - configure the mock
                 _myHelper.SetupMockForViewModels(mock);
                 var sut = mock.Create<LoginViewModel>();
-                var expectedGreeting = "Welcome to MYAPP!";
 
                 // Act
-                var actualGreeting = sut.Greeting;
-                var actualFontSize = sut.FontSize;
 
                 // Assert    
-                Assert.Equal(expectedGreeting, actualGreeting);
-                Assert.Equal(_myHelper.GetDefaultFontSize(), actualFontSize);
+                Assert.False(string.IsNullOrWhiteSpace(sut.Greeting), "You didn't set a greeting");
+                Assert.Equal(defaultsFactory.GetFontSize(), sut.FontSize);
             }
         }
         [Fact]
-        public async Task WhenLoginButton_IsClicked_ShouldEventuallyReturnTrue()
+        public async Task WhenLoginButton_IsClicked_ShouldEventuallyLogin()
         {
             using (var mock = AutoMock.GetLoose())
             {
@@ -44,6 +41,7 @@ namespace UnitTests.ViewModels
                 MessagingCenter.Subscribe<ILoginViewModel, bool>(this, "LoginStatus", (sender, args) => sentMessage = args);
 
                 // Act
+                // if sentMessage is true, then user has logged in
                 while (!sentMessage)
                 {
                     await sut.LoginCommand.Execute().FirstAsync();

@@ -18,7 +18,7 @@ namespace Target.Pages
         {
             InitializeComponent();
             ViewModel = (GoodByePageViewModel)App.Container.Resolve<IGoodByePageViewModel>();
-            lblThanks.Text = "Thanks for considering " + ViewModel.defaultsFactory.GetAppName() + "!";
+            lblThanks.Text = ViewModel.Greeting;
         }
     }
 }

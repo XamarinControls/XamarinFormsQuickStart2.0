@@ -13,13 +13,8 @@ using System.Threading.Tasks;
 namespace UnitTests.ViewModels
 {
 
-    public class SettingsViewModelTests
+    public class SettingsViewModelTests : BaseViewModel
     {
-        MyAutoMockHelper _myHelper;
-        public SettingsViewModelTests()
-        {
-            _myHelper = new MyAutoMockHelper();
-        }
 
         [Fact]
         public void WhenInitialized_ShouldSetDefaults()
@@ -30,18 +25,16 @@ namespace UnitTests.ViewModels
                 _myHelper.SetupMockForViewModels(mock);
                 var sut = mock.Create<SettingsViewModel>();
 
-                var defaultIsManualFontOn = _myHelper.GetDefaultIsManualFont();
-                var defaultShowConnectionErrors = _myHelper.GetDefaultShowConnectionErrors();
+                var defaultIsManualFontOn = defaultsFactory.GetIsManualFont();
+                var defaultShowConnectionErrors = defaultsFactory.GetShowConnectionErrors();
 
                 // Act
-                var greeting = sut.Greeting;
-                var fontSize = sut.FontSize;
                 var isManualFontOn = sut.IsManualFontOn;
                 var showConnectionErrors = sut.ShowConnectionErrors;
 
                 // Assert    
-                Assert.Equal("Settings Page", greeting);
-                Assert.Equal(_myHelper.GetDefaultFontSize(), fontSize);
+                Assert.False(string.IsNullOrWhiteSpace(sut.Greeting), "You didn't set a greeting");
+                Assert.Equal(defaultsFactory.GetFontSize(), sut.FontSize); ;
                 if (defaultIsManualFontOn)
                 {
                     Assert.True(isManualFontOn, "IsManualFont had wrong initial value");
@@ -63,7 +56,7 @@ namespace UnitTests.ViewModels
 
 
         [Fact]
-        public void WhenManualFont_IsClickedOff_ShouldSetFontSizeToDefault()
+        public async Task WhenManualFont_IsClickedOff_ShouldSetFontSizeToDefault()
         {
             using (var mock = AutoMock.GetLoose())
             {
@@ -72,23 +65,23 @@ namespace UnitTests.ViewModels
                 var sut = mock.Create<SettingsViewModel>();
                 
                 // Act
-                // if IsManualFont is already turned off
-                if (!_myHelper.GetDefaultIsManualFont())
+                // if IsManualFont is on, turn it off
+                if (defaultsFactory.GetIsManualFont())
                 {
                     // turn it on                    
-                    sut.IsManualFontOnClicked.Execute().FirstAsync();
+                    sut.IsManualFontOn = false;
                 }
                 // set the font size to something other than the default
-                sut.FontSize = _myHelper.GetDefaultFontSize() + 1;
+                sut.FontSize = defaultsFactory.GetFontSize() + 1;
 
                 // Assert  
                 // At this point the IsManualFont switch should be turned on
                 // Also the value of the font size should be 1 greater than the default
                 // when the below command is invoked, it should automatically turn off the switch 
                 // and set the value of the FontSize to the default causing an INotifyPropertyChanged event                
-                Assert.PropertyChanged(sut, "FontSize", () => sut.IsManualFontOnClicked.Execute().FirstAsync());
+                await Assert.PropertyChangedAsync(sut, "FontSize", async () => await sut.IsManualFontOnClicked.Execute().FirstAsync());
                 // The value of FontSize should now be back to the default
-                Assert.Equal(sut.FontSize, _myHelper.GetDefaultFontSize());
+                Assert.Equal(sut.FontSize, defaultsFactory.GetFontSize());
             }
         }
 
@@ -123,7 +116,7 @@ namespace UnitTests.ViewModels
                 var sut = mock.Create<SettingsViewModel>();
 
                 // Act
-                if (!_myHelper.GetDefaultShowConnectionErrors())
+                if (!defaultsFactory.GetShowConnectionErrors())
                 {
                     // turn it on
                     await sut.ShowConnectionErrorsCommand.Execute().FirstAsync();

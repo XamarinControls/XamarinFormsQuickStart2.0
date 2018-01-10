@@ -10,7 +10,7 @@ using System.Reactive.Linq;
 namespace UnitTests.ViewModels
 {
 
-    public class AboutPageViewModelTests : BaseViewModel
+    public class MasterListViewModelTests : BaseViewModel
     {
         
         [Fact]
@@ -20,16 +20,13 @@ namespace UnitTests.ViewModels
             {
                 // Arrange - configure the mock
                 _myHelper.SetupMockForViewModels(mock);
-                var sut = mock.Create<AboutPageViewModel>();
+                var sut = mock.Create<ActivitiesPageViewModel>();
 
                 // Act
 
-                // Assert    
-                Assert.False(string.IsNullOrWhiteSpace(sut.Greeting), "You didn't set a greeting");
+                // Assert    ;
                 Assert.Equal(defaultsFactory.GetFontSize(), sut.FontSize);
-                Assert.False(string.IsNullOrWhiteSpace(sut.HTMLSource.Html), "You have no HTML content");
-                Assert.False(string.IsNullOrWhiteSpace(sut.HTMLSource.BaseUrl), "You haven't set the baseUrl");
-                
+
             }
         }        
 

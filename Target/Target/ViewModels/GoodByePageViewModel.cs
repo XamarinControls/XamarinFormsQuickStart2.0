@@ -19,6 +19,7 @@ namespace Target.ViewModels
             )
             : base(settingsService, settingsFactory, defaultsFactory)
         {
+            Greeting = "Thanks for considering " + defaultsFactory.GetAppName() + "!";
         }
     }
 }

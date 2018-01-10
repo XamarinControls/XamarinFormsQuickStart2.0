@@ -40,31 +40,21 @@ namespace Target.ViewModels
             )
             : base(settingsService, settingsFactory, defaultsFactory)
         {
-            MessagingCenter.Subscribe<ISettingsPage>(this, "mSettingsFontChanged", (sender) =>
+            // this subscription is needed to refresh the size of text and images after changing
+            // settings on the settings page.  Otherwise, they won't automatically
+            // change size after changing the settings.
+            MessagingCenter.Subscribe<ISettingsViewModel>(this, "mSettingsFontChanged", (sender) =>
             {
-                var fireandforget2 = Task.Run(async () => await RunAsync());
+                var fireandforget2 = Task.Run(() => RunAsync(300));
             });
-            var fireandforget = Task.Run(async () => await RunAsync());
+            var fireandforget = Task.Run(() => RunAsync(0));
             
         }
-        //private void ChangePage(object e)
-        //{
-        //    if (e is MasterPageItem item)
-        //    {
-        //        var x = GetInstance(item.TargetType.FullName);
-        //        HostScreen.Router.Navigate.Execute((IRoutableViewModel)x).Subscribe();
-        //        //var nextPage = new NavigationPage((Page)Activator.CreateInstance(item.TargetType));
-        //        //nextPage.BarBackgroundColor = Constants.ToolbarColor;
-        //        //nextPage.BarTextColor = Constants.ToolbarTextColor;
-        //        //Detail = nextPage;
-        //        //masterPage.ListView.SelectedItem = null;
-        //        //IsPresented = false;
-        //    }
-        //}
         
-        private async Task RunAsync()
+        private async Task RunAsync(int waitTime)
         {
-            await Task.Delay(TimeSpan.FromMilliseconds(1000)).ConfigureAwait(false);
+
+            await Task.Delay(TimeSpan.FromMilliseconds(waitTime)).ConfigureAwait(false);
             var size = _settingsFactory.GetSettings().FontSize;
             _items = _items ?? new ReactiveList<MasterPageItem>();
             Device.BeginInvokeOnMainThread(() =>

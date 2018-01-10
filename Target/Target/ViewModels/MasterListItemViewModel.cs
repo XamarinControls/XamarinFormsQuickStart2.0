@@ -7,7 +7,16 @@ using Target.Interfaces;
 
 namespace Target.ViewModels
 {
-    public class MasterListItemViewModel: IMasterListItemViewModel
+    public class MasterListItemViewModel: BaseViewModel, IMasterListItemViewModel
     {
+        public MasterListItemViewModel(
+            ISettingsService settingsService,
+            ISettingsFactory settingsFactory,
+            IDefaultsFactory defaultsFactory,
+            IPlatformStuffService platformStuffService
+            )
+            : base(settingsService, settingsFactory, defaultsFactory)
+        {
+        }
     }
 }

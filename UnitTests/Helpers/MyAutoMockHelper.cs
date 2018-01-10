@@ -14,21 +14,14 @@ namespace UnitTests.Helpers
     public class MyAutoMockHelper
     {
         private SettingsFactory settingsFactory;
-        private readonly int  _defaultFontSize;
-        private readonly bool _defaultIsManualFont;
-        private readonly bool _defaultShowConnectionErrors;
-        private readonly int _defaultFontSizeMax;
+
+
         private IDefaultsFactory defaultsFactory;
         public MyAutoMockHelper()
         {
             defaultsFactory = new DefaultsFactory();
-            _defaultFontSize = defaultsFactory.GetFontSize();
-            _defaultIsManualFont = defaultsFactory.GetIsManualFont();
-            _defaultShowConnectionErrors = defaultsFactory.GetShowConnectionErrors();
-            _defaultFontSizeMax = defaultsFactory.GetFontSizeMax();
             
-        }
-
+        }        
         public void SetupMockForViewModels(AutoMock mock)
         {
             settingsFactory = new SettingsFactory(defaultsFactory);
@@ -44,21 +37,9 @@ namespace UnitTests.Helpers
             mock.Mock<IPlatformStuffService>().Setup(x => x.GetBaseUrl()).Returns("some base url");
 
         }
-        public int GetDefaultFontSize()
+        public IDefaultsFactory GetDefaultsFactory()
         {
-            return _defaultFontSize;
-        }
-        public bool GetDefaultIsManualFont()
-        {
-            return _defaultIsManualFont;
-        }
-        public bool GetDefaultShowConnectionErrors()
-        {
-            return _defaultShowConnectionErrors;
-        }
-        public int GetDefaultFontSizeMax()
-        {
-            return _defaultFontSizeMax;
+            return defaultsFactory;
         }
         public SettingsFactory GetSettingsFactory()
         {

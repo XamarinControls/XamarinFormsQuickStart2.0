@@ -13,8 +13,14 @@ namespace Target.ViewModels
 {
     public class SettingsViewModel : BaseViewModel, ISettingsViewModel
     {
-        private bool isManualFontOnState;
         private bool isShowErrorsOnState;
+
+        string fontSliderLabel;
+        public string FontSliderLabel
+        {
+            get { return fontSliderLabel; }
+            set { this.RaiseAndSetIfChanged(ref fontSliderLabel, value); }
+        }
 
         bool isManualFontOn;
         public bool IsManualFontOn
@@ -57,15 +63,26 @@ namespace Target.ViewModels
             this.IsManualFontOnClicked = ReactiveCommand.CreateFromTask(SetManualFont);
             this.showConnectionErrorsCommand = ReactiveCommand.CreateFromTask(SetShowConnectionErrors);
 
+            this.WhenActivated(
+            registerDisposable =>
+            {
+                registerDisposable(
+                    this.WhenAnyValue(x => x.FontSize)
+                    .Select(x => Unit.Default)
+                    .InvokeCommand(IsManualFontOnClicked)
+                    );
+            });
+
         }
         private async Task SetManualFont()
         {
+            var rounded = Math.Round((double)FontSize);
+            FontSliderLabel = $"Custom Font Size is {rounded}";
+            // tell the side menu to update
+            MessagingCenter.Send<ISettingsViewModel>(this, "mSettingsFontChanged");
             var setting = _settingsFactory.GetSettings();
-            // I need this variable to maintain state of the switch for testing,
-            // otherwise only the view maintains the state of the switch.
-            isManualFontOnState = !isManualFontOnState;
             setting.IsManualFont = IsManualFontOn;
-            if (!isManualFontOnState) FontSize = defaultsFactory.GetFontSize();
+            if (!IsManualFontOn) FontSize = defaultsFactory.GetFontSize();
             setting.FontSize = FontSize;
             var settings = await _settingsService.CreateSetting(setting);            
         }
@@ -90,7 +107,6 @@ namespace Target.ViewModels
             var settings = await _settingsService.GetSettings();
             isManualFontOn = settings.IsManualFont;
             ShowConnectionErrors = settings.ShowConnectionErrors;
-            isManualFontOnState = IsManualFontOn;
             isShowErrorsOnState = ShowConnectionErrors;
         }
     }

@@ -22,7 +22,7 @@
                 HorizontalOptions="Center"
                 WidthRequest="60" HeightRequest="60"
                 Source="{Binding SourceImg, Converter={StaticResource SvgImageSourceConverter}}"/>
-            <Label Text="{Binding Greeting}" FontSize="{Binding FontSize}"/>
+            <Label Text="{Binding Greeting}" FontSize="{Binding FontSize}" HorizontalTextAlignment="Center"/>
             <Button x:Name="btnOrg" Text="Organization"></Button>
             <Button x:Name="btnResync" Text="Resync"></Button>
         </StackLayout>

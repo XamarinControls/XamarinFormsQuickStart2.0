@@ -8,6 +8,7 @@ namespace Target.Interfaces
 {
     public interface ISettingsViewModel
     {
+        string FontSliderLabel { get; set; }
         int FontSize { get; set; }
         bool IsManualFontOn { get; set; }
         //bool IsSwitchOn { get; set; }

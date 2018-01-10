@@ -27,8 +27,9 @@ namespace Target.ViewModels
             IPlatformStuffService platformStuffService
             )
             : base(settingsService, settingsFactory, defaultsFactory)
-        {
-            sourceImg = "resource://Target.Resources.ic_home_black_36px.svg";
-        }
+            {
+                Greeting = defaultsFactory.GetAppName();
+                sourceImg = "resource://Target.Resources.ic_home_black_36px.svg";
+            }
     }
 }
