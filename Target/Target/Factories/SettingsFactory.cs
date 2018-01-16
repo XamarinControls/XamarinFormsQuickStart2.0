@@ -6,6 +6,8 @@ using System.Text;
 
 namespace Target.Factories
 {
+    // use this class whenever you want to read current settings.
+    // use the SettingsService if you need to change she settings 
     public class SettingsFactory : SQLiteItem, ISettingsFactory
     {
         private Settings _settings;

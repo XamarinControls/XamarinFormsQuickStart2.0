@@ -10,6 +10,8 @@ using Xamarin.Forms;
 
 namespace Target.Services
 {
+    // Try to use this service only when you need to change the SettingsFactory
+    // Use SettingsFactory mostly in your app whenever you want to read settings.
     public class SettingsService : ISettingsService
     {
         private readonly ISQLiteRepository iSQLiteRepository;

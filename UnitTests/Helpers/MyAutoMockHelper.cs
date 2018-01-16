@@ -21,7 +21,6 @@ namespace UnitTests.Helpers
         public MyAutoMockHelper()
         {
             defaultsFactory = new DefaultsFactory();
-
         }
         public void SetupMockForViewModels(AutoMock mock)
         {
@@ -33,10 +32,9 @@ namespace UnitTests.Helpers
             mock.Provide<IDefaultsFactory>(defaultsFactory);
             // the following will allow autofaq to automatically inject IPlatformStuffService
             // It will also change the normal operation of GetBaseUrl()
-            // since that single method is all we are worried about, no point in creating a 
-            // custom mock service.
+            // since that single method is the only difficult to test method, no point in creating a 
+            // custom mock for the entire service.
             mock.Mock<IPlatformStuffService>().Setup(x => x.GetBaseUrl()).Returns("some base url");
-
         }
 
         public void RunBaseViewModelTests(IBaseViewModel sut)

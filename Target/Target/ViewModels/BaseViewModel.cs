@@ -59,12 +59,7 @@ namespace Target.ViewModels
             _settingsFactory = settingsFactory;
             _settingsService = settingsService;
             this.defaultsFactory = defaultsFactory;
-            var fireandforget = Task.Run(async () => await InitializeSettings()); 
-        }
-        private async Task InitializeSettings()
-        {
-            var settings = await _settingsService.GetSettings();
-            FontSize = settings.FontSize;
+            FontSize = _settingsFactory.GetSettings().FontSize;
         }
     }
 }
