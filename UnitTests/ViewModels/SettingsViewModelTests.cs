@@ -33,8 +33,7 @@ namespace UnitTests.ViewModels
                 var showConnectionErrors = sut.ShowConnectionErrors;
 
                 // Assert    
-                Assert.False(string.IsNullOrWhiteSpace(sut.Greeting), "You didn't set a greeting");
-                Assert.Equal(defaultsFactory.GetFontSize(), sut.FontSize); ;
+                _myHelper.RunBaseViewModelTests(sut);
                 if (defaultIsManualFontOn)
                 {
                     Assert.True(isManualFontOn, "IsManualFont had wrong initial value");

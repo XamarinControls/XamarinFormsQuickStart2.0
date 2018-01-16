@@ -25,8 +25,7 @@ namespace UnitTests.ViewModels
                 // Act
 
                 // Assert    
-                Assert.False(string.IsNullOrWhiteSpace(sut.Greeting), "You didn't set a greeting");
-                Assert.Equal(defaultsFactory.GetFontSize(), sut.FontSize);
+                _myHelper.RunBaseViewModelTests(sut);
                 Assert.False(string.IsNullOrWhiteSpace(sut.HTMLSource.Html), "You have no HTML content");
                 Assert.False(string.IsNullOrWhiteSpace(sut.HTMLSource.BaseUrl), "You haven't set the baseUrl");
                 

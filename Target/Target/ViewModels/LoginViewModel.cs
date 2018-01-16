@@ -20,6 +20,7 @@ namespace Target.ViewModels
             )
             :base(settingsService, settingsFactory, defaultsFactory )
         {
+            Title = "Login";
             Greeting = "Welcome to " + defaultsFactory.GetAppName() + "!";
             var canLogin = Observable.Return<bool>(true); // you could do some logic here instead
             this.loginCommand = ReactiveCommand.CreateFromObservable(

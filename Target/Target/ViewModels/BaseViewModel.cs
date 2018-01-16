@@ -5,11 +5,22 @@ using System.Threading.Tasks;
 namespace Target.ViewModels
 {
 
-    public class BaseViewModel : ReactiveObject, ISupportsActivation
+    public class BaseViewModel : ReactiveObject, ISupportsActivation, IBaseViewModel
     {
         public ISettingsFactory _settingsFactory;
         public ISettingsService _settingsService;
         public readonly IDefaultsFactory defaultsFactory;
+
+        private string title;
+        public string Title
+        {
+            get
+            {
+                return title;
+            }
+            set { this.RaiseAndSetIfChanged(ref title, value); }
+        }
+
         private string toastMessage;
         public string ToastMessage
         {

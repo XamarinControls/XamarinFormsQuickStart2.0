@@ -6,7 +6,6 @@
              xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
              xmlns:vms="clr-namespace:Target.ViewModels;assembly=Target"
              xmlns:views="clr-namespace:Target.Pages;assembly=Target"
-             Title="Terms"
              Padding="15,0,15,0">
     <ContentPage.Content>
         <Grid>

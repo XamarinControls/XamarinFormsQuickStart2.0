@@ -24,7 +24,8 @@
                 Source="{Binding SourceImg, Converter={StaticResource SvgImageSourceConverter}}"/>
             <Label Text="{Binding Greeting}" FontSize="{Binding FontSize}" HorizontalTextAlignment="Center"/>
             <Button x:Name="btnOrg" Text="Organization"></Button>
-            <Button x:Name="btnResync" Text="Resync"></Button>
+            <Button x:Name="btnPerson" Text="Person"></Button>
+            <Button x:Name="btnRecent" Text="Recent"></Button>
         </StackLayout>
     </ContentPage.Content>
 </views:ContentPageBase>

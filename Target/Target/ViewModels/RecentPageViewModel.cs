@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Target.ViewModels
 {
-    public class ResyncPageViewModel : BaseViewModel, IResyncPageViewModel
+    public class RecentPageViewModel : BaseViewModel, IRecentPageViewModel
     {
-        public ResyncPageViewModel(
+        public RecentPageViewModel(
             ISettingsService settingsService,
             ISettingsFactory settingsFactory,
             IDefaultsFactory defaultsFactory,
@@ -15,7 +15,8 @@ namespace Target.ViewModels
             )
             : base(settingsService, settingsFactory, defaultsFactory)
         {
-            Greeting = "Resync Page";
+            Title = "Recent";
+            Greeting = "Recent Page";
         }
     }
 }

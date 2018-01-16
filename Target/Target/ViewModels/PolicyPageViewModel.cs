@@ -25,6 +25,7 @@ namespace Target.ViewModels
             )
             : base(settingsService, settingsFactory, defaultsFactory)
         {
+            Title = "Policy";
             Greeting = "Privacy Policy";
             HTMLSource = HTMLSource ?? new HtmlWebViewSource();
             HTMLSource.BaseUrl = platformStuffService.GetBaseUrl();

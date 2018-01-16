@@ -15,7 +15,7 @@ using Xamarin.Forms;
 
 namespace Target.Pages
 {
-    public class ContentPageBase<TViewModel> : ReactiveContentPage<TViewModel> where TViewModel : class
+    public class ContentPageBase<TViewModel> : ReactiveContentPage<TViewModel>, IContentPageBase where TViewModel : class
     {
         protected IBindingTypeConverter bindingDoubleToIntConverter;
         protected IBindingTypeConverter bindingIntToDoubleConverter;
@@ -29,11 +29,11 @@ namespace Target.Pages
             //var _settingsFactory = App.Container.Resolve<ISettingsFactory>();
             //setting = _settingsFactory.GetSettings();
         }
-        protected double GetSquaredImageSize(int x)
+        public double GetSquaredImageSize(int x)
         {
             return (double)(x * 3);
         }
-        protected async void ShowToast(INotificationOptions options)
+        public async void ShowToast(INotificationOptions options)
         {
             var notificator = DependencyService.Get<IToastNotificator>();
 

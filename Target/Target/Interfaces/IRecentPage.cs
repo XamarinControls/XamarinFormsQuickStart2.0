@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Target.Interfaces
 {
-    public interface IResyncPage
+    public interface IRecentPage
     {
     }
 }

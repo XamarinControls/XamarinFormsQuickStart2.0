@@ -5,12 +5,12 @@
              x:TypeArguments="vms:OrganizationPageViewModel"
              xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
              xmlns:vms="clr-namespace:Target.ViewModels;assembly=Target"
-             xmlns:views="clr-namespace:Target.Pages;assembly=Target"
-             Title="Organization">
+             xmlns:views="clr-namespace:Target.Pages;assembly=Target">
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
+        <!--<StackLayout x:Name="baseLayout" Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
             <Label x:Name="lbl" />
-            <Button x:Name="btnPerson" Text="Person"></Button>
-        </StackLayout>
+            <Button x:Name="btnNew" Text="New"></Button>
+            <Button x:Name="btnSearch" Text="Search"></Button>
+        </StackLayout>-->
     </ContentPage.Content>
 </views:ContentPageBase>

@@ -15,6 +15,7 @@ namespace Target.ViewModels
             )
             : base(settingsService, settingsFactory, defaultsFactory)
         {
+            Title = "Person";
             Greeting = "Person Page";
         }
     }

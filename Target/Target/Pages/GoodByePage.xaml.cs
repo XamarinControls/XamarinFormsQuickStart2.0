@@ -1,7 +1,9 @@
 ﻿using Autofac;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Text;
 using System.Threading.Tasks;
 using Target.Interfaces;
@@ -18,7 +20,20 @@ namespace Target.Pages
         {
             InitializeComponent();
             ViewModel = (GoodByePageViewModel)App.Container.Resolve<IGoodByePageViewModel>();
-            lblThanks.Text = ViewModel.Greeting;
+            this
+                .WhenActivated(
+                    disposables =>
+                    {
+                        this
+                            .OneWayBind(ViewModel, vm => vm.Title, x => x.Title)
+                            .DisposeWith(disposables);
+                        this
+                            .OneWayBind(ViewModel, vm => vm.Greeting, x => x.lblThanks.Text)
+                            .DisposeWith(disposables);
+                        this
+                            .OneWayBind(this.ViewModel, x => x.FontSize, x => x.lblThanks.FontSize, vmToViewConverterOverride: bindingIntToDoubleConverter)
+                            .DisposeWith(disposables);
+                    });
         }
     }
 }

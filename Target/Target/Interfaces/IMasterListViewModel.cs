@@ -11,7 +11,7 @@ namespace Target.Interfaces
 {
     public interface IMasterListViewModel
     {
-        ReactiveList<MasterPageItem> Items
+        ReactiveList<BaseListItem> Items
         {
             get;
             set;

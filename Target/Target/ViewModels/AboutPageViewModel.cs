@@ -46,6 +46,7 @@ namespace Target.ViewModels
             IPlatformStuffService platformStuffService)
             : base(settingsService, settingsFactory, defaultsFactory)
         {
+            Title = "About";
             Greeting = "About Page";
             InitializeSettings();
             HTMLSource = HTMLSource ?? new HtmlWebViewSource();

@@ -26,6 +26,9 @@ namespace Target.Pages
                     disposables =>
                     {
                         this
+                            .OneWayBind(ViewModel, vm => vm.Title, x => x.Title)
+                            .DisposeWith(disposables);
+                        this
                             .OneWayBind(ViewModel, vm => vm.Greeting, x => x.lbl.Text)
                             .DisposeWith(disposables);
                         this

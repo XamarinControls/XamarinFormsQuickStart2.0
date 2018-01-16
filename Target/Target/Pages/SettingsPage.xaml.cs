@@ -163,6 +163,9 @@ namespace Target.Pages
                     disposables =>
                     {
                         this
+                            .OneWayBind(ViewModel, vm => vm.Title, x => x.Title)
+                            .DisposeWith(disposables);
+                        this
                             .OneWayBind(this.ViewModel, x => x.FontSize, x => x.isManualFontGrid.Margin, vmToViewConverterOverride: bindingPaddingTopBottomConverter)
                             .DisposeWith(disposables);
                         this

@@ -24,10 +24,9 @@ namespace Target.ViewModels
             ISettingsService settingsService,
             ISettingsFactory settingsFactory,
             IDefaultsFactory defaultsFactory,
-            IPlatformStuffService platformStuffService
-            )
-            : base(settingsService, settingsFactory, defaultsFactory)
+            IPlatformStuffService platformStuffService): base(settingsService, settingsFactory, defaultsFactory)
             {
+                Title = "Home";
                 Greeting = defaultsFactory.GetAppName();
                 sourceImg = "resource://Target.Resources.ic_home_black_36px.svg";
             }

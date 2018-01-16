@@ -59,21 +59,21 @@ namespace Target
                 if (defaultsFactory.GetIsLoginPageEnabled())
                 {
                     loadLoginPage();
-                } 
+                }
                 else
                 {
                     loadMainPage();
                 }
-                    
+
             });
             MessagingCenter.Subscribe<ILogoutPage>(this, "LogMeOut", (sender) =>
             {
                 loggedIn = false;
                 loadLoginPage();
-            });  
+            });
 
-            Task.Run(async () => { await InitializeSettings(); }).Wait();            
-            
+            Task.Run(async () => { await InitializeSettings(); }).Wait();
+
             setting = _settingsFactory.GetSettings();
 
             if (defaultsFactory.GetIsTermsPageEnabled())
@@ -81,7 +81,7 @@ namespace Target
                 if (string.IsNullOrEmpty(setting.AgreedToTermsDate))
                 {
                     loadTermsPage();
-                } 
+                }
                 else
                 {
                     ContinueWithoutTerms();
@@ -134,14 +134,14 @@ namespace Target
 
                 }
             }
-            
+
         }
 
         private void ContinueWithoutTerms()
         {
             if (defaultsFactory.GetIsLoginPageEnabled())
             {
-                loadLoginPage();                
+                loadLoginPage();
             }
             else
             {
@@ -162,7 +162,7 @@ namespace Target
             var settings = await _settingsService.GetSettings();
             _settingsFactory = App.Container.Resolve<ISettingsFactory>();
             _settingsFactory.SaveSettings((Settings)settings);
-            
+
         }
         private void loadTermsPage()
         {
@@ -171,7 +171,7 @@ namespace Target
         }
         private void loadMainPage()
         {
-            masterPage = (MasterDetailPage)App.Container.Resolve<IMasterPage>();            
+            masterPage = (MasterDetailPage)App.Container.Resolve<IMasterPage>();
             MainPage = masterPage;
         }
         private void loadLoginPage()
@@ -180,14 +180,14 @@ namespace Target
             MainPage = loginPage;
         }
         private void SetupIOC()
-        {            
+        {
             var builder = new ContainerBuilder();
-            builder.RegisterType<MasterPage>().As<IMasterPage>();            
+            builder.RegisterType<MasterPage>().As<IMasterPage>();
             builder.RegisterType<MasterPageViewModel>().As<IMasterPageViewModel>();
             builder.RegisterType<OrganizationPage>().As<IOrganizationPage>();
             builder.RegisterType<PersonPage>().As<IPersonPage>();
             builder.RegisterType<SettingsPage>().As<ISettingsPage>();
-            builder.RegisterType<ResyncPage>().As<IResyncPage>();
+            builder.RegisterType<RecentPage>().As<IRecentPage>();
             builder.RegisterType<ActivitiesPage>().As<IActivitiesPage>();
             builder.RegisterType<HomePage>().As<IHomePage>();
             builder.RegisterType<SettingsService>().As<ISettingsService>().SingleInstance().AutoActivate();
@@ -204,8 +204,8 @@ namespace Target
             builder.RegisterType<ActivitiesPageViewModel>().As<IActivitiesPageViewModel>();
             builder.RegisterType<OrganizationPageViewModel>().As<IOrganizationPageViewModel>();
             builder.RegisterType<PersonPageViewModel>().As<IPersonPageViewModel>();
-            builder.RegisterType<ResyncPageViewModel>().As<IResyncPageViewModel>();
-            builder.RegisterType<SQLiteRepository>().As<ISQLiteRepository>();           
+            builder.RegisterType<RecentPageViewModel>().As<IRecentPageViewModel>();
+            builder.RegisterType<SQLiteRepository>().As<ISQLiteRepository>();
             builder.RegisterType<DoubleToIntConverter>().As<IDoubleToIntConverter>();
             builder.RegisterType<IntToDoubleConverter>().As<IIntToDoubleConverter>();
             builder.RegisterType<PaddingTopBottomConverter>().As<IPaddingTopBottomConverter>();
@@ -217,6 +217,7 @@ namespace Target
             builder.RegisterType<PolicyPage>().As<IPolicyPage>();
             builder.RegisterType<AboutPageViewModel>().As<IAboutPageViewModel>();
             builder.RegisterType<GoodByePage>().As<IGoodByePage>();
+            builder.RegisterType<RecentPage>().As<IRecentPage>();
             builder.RegisterType<GoodByePageViewModel>().As<IGoodByePageViewModel>();
             builder.RegisterType<SvgImageSourceConverterForReactive>().As<ISvgImageSourceConverterForReactive>();
             ;
@@ -272,7 +273,7 @@ namespace Target
             CrossConnectivity.Current.ConnectivityChanged -= ConnectionError;
             // Handle when your app sleeps
         }
-        
+
 
         protected override void OnResume()
         {

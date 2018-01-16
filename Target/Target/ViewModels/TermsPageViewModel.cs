@@ -37,6 +37,7 @@ namespace Target.ViewModels
             )
             : base(settingsService, settingsFactory, defaultsFactory)
         {
+            Title = "Terms";
             Greeting = "Terms And Conditions";
             HTMLSource = HTMLSource ?? new HtmlWebViewSource();
             HTMLSource.BaseUrl = platformStuffService.GetBaseUrl() ;

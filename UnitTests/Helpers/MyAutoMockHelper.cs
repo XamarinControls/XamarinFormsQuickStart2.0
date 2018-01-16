@@ -8,6 +8,7 @@ using Target.Interfaces;
 using Target.Models;
 using Target.Services;
 using UnitTests.Mock.MockRepositories;
+using Xunit;
 
 namespace UnitTests.Helpers
 {
@@ -20,8 +21,8 @@ namespace UnitTests.Helpers
         public MyAutoMockHelper()
         {
             defaultsFactory = new DefaultsFactory();
-            
-        }        
+
+        }
         public void SetupMockForViewModels(AutoMock mock)
         {
             settingsFactory = new SettingsFactory(defaultsFactory);
@@ -37,6 +38,14 @@ namespace UnitTests.Helpers
             mock.Mock<IPlatformStuffService>().Setup(x => x.GetBaseUrl()).Returns("some base url");
 
         }
+
+        public void RunBaseViewModelTests(IBaseViewModel sut)
+        {
+            // Assert   
+            Assert.False(string.IsNullOrEmpty(sut.Title), "You didn't set a title");
+            Assert.False(string.IsNullOrWhiteSpace(sut.Greeting), "You didn't set a greeting");
+            Assert.Equal(defaultsFactory.GetFontSize(), sut.FontSize);
+        }
         public IDefaultsFactory GetDefaultsFactory()
         {
             return defaultsFactory;
@@ -45,6 +54,6 @@ namespace UnitTests.Helpers
         {
             return settingsFactory;
         }
-        
+
     }
 }

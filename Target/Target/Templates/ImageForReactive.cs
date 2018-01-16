@@ -14,7 +14,7 @@ using Xamarin.Forms;
 
 namespace Target.Templates
 {
-    public class ImageForReactive : ContentViewBase<MasterPageItem>
+    public class ImageForReactive : ContentViewBase<BaseListItem>
     {
         SvgCachedImage ffimg;
         SvgImageSourceConverterForReactive imgConverter;
@@ -34,8 +34,6 @@ namespace Target.Templates
                             .DisposeWith(disposables);
                         this.OneWayBind(ViewModel, vm => vm.FontSize, view => view.ffimg.HeightRequest, x => GetSquaredImageSize(x))
                             .DisposeWith(disposables);
-                        //this.OneWayBind(ViewModel, vm => vm.FontSize, view => view.ffimg.WidthRequest, x => GetSquaredImageSize(x))
-                        //    .DisposeWith(disposables);
                     });
             Content = ffimg;
         }

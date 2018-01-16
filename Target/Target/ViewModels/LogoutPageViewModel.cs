@@ -17,6 +17,7 @@ namespace Target.ViewModels
             )
             : base(settingsService, settingsFactory, defaultsFactory)
         {
+            Title = "Logout";
             Greeting = $"Leaving {defaultsFactory.GetAppName()}?";
         }
     }

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Target.Models
 {
-    public class MasterPageItem
+    public class BaseListItem
     {
         public string Title { get; set; }
 
@@ -14,5 +15,7 @@ namespace Target.Models
 
         public Type TargetType { get; set; }
         public int FontSize { get; set; }
+        //public IObservable<Color> FontColor { get; set; }
+        public Color FontColor { get; set; }
     }
 }

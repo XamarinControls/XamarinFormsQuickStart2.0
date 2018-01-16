@@ -85,7 +85,7 @@ namespace Target.Pages
         }
         void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            if (e.SelectedItem is MasterPageItem item)
+            if (e.SelectedItem is BaseListItem item)
             {
                 var nextPage = new NavigationPage((Page)Activator.CreateInstance(item.TargetType));
                 nextPage.BarBackgroundColor = ViewModel.defaultsFactory.GetToolbarColor();

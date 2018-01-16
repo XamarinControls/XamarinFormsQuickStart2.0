@@ -20,15 +20,17 @@ namespace Target.Pages
             InitializeComponent();
             ViewModel = (HomePageViewModel)App.Container.Resolve<IHomePageViewModel>();
             var orgPage = (Page)App.Container.Resolve<IOrganizationPage>();
-            var resyncPage = (Page)App.Container.Resolve<IResyncPage>();
+            var personPage = (Page)App.Container.Resolve<IPersonPage>();
+            var recentPage = (Page)App.Container.Resolve<IRecentPage>();
             this
                 .WhenActivated(
                     disposables =>
                     {
-                        this.OneWayBind(this.ViewModel, x => x.Greeting, x => x.Title)
+                        this.OneWayBind(this.ViewModel, x => x.Title, x => x.Title)
                             .DisposeWith(disposables);
-                        this
-                            .OneWayBind(this.ViewModel, x => x.FontSize, x => x.btnResync.FontSize, vmToViewConverterOverride: bindingIntToDoubleConverter)
+                        this.OneWayBind(this.ViewModel, x => x.FontSize, x => x.btnRecent.FontSize, vmToViewConverterOverride: bindingIntToDoubleConverter)
+                            .DisposeWith(disposables);
+                        this.OneWayBind(this.ViewModel, x => x.FontSize, x => x.btnPerson.FontSize, vmToViewConverterOverride: bindingIntToDoubleConverter)
                             .DisposeWith(disposables);
                         this.OneWayBind(ViewModel, vm => vm.FontSize, x => x.btnOrg.FontSize, vmToViewConverterOverride: bindingIntToDoubleConverter)
                             .DisposeWith(disposables);
@@ -36,11 +38,14 @@ namespace Target.Pages
                             .DisposeWith(disposables);
                         this.OneWayBind(ViewModel, vm => vm.FontSize, view => view.ffimage.WidthRequest, x => GetSquaredImageSize(x))
                             .DisposeWith(disposables);
-                        this.btnResync.Events().Clicked
-                            .Subscribe(async (_) => await Navigation.PushAsync(resyncPage))
+                        this.btnPerson.Events().Clicked
+                            .Subscribe(async (_) => await Navigation.PushAsync(personPage))
                             .DisposeWith(disposables);
                         this.btnOrg.Events().Clicked
                             .Subscribe(async (_) => await Navigation.PushAsync(orgPage))
+                            .DisposeWith(disposables);
+                        this.btnRecent.Events().Clicked
+                            .Subscribe(async (_) => await Navigation.PushAsync(recentPage))
                             .DisposeWith(disposables);
                     });
         }

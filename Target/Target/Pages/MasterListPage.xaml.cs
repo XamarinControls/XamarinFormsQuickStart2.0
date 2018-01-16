@@ -48,7 +48,7 @@ namespace Target.Pages
                 HasUnevenRows = false,
                 SeparatorVisibility = SeparatorVisibility.None,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
-                BackgroundColor = Color.FromHex("#313e4b"),
+                BackgroundColor = ViewModel.defaultsFactory.GetSideMenuColor(),
                 ItemTemplate = dtemplate
             };
             //listView.SetBinding(ListView.ItemsSourceProperty, new Binding("Items"));

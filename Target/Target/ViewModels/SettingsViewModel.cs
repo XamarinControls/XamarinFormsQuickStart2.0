@@ -56,6 +56,7 @@ namespace Target.ViewModels
             )
             : base(settingsService, settingsFactory, defaultsFactory)
         {
+            Title = "Settings";
             Greeting = "Settings Page";
             
             var fireandforget = Task.Run(async () => await InitializeSettings());

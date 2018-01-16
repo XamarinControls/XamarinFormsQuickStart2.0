@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Target.Interfaces
 {
-    public interface IResyncPageViewModel
+    public interface IRecentPageViewModel
     {
     }
 }

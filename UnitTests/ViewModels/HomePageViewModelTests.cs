@@ -20,13 +20,12 @@ namespace UnitTests.ViewModels
             {
                 // Arrange - configure the mock
                 _myHelper.SetupMockForViewModels(mock);
-                var sut = mock.Create<HomePageViewModel>();                
+                var sut = mock.Create<HomePageViewModel>();
 
                 // Act
 
                 // Assert    
-                Assert.False(string.IsNullOrWhiteSpace(sut.Greeting), "You didn't set a greeting");
-                Assert.Equal(defaultsFactory.GetFontSize(), sut.FontSize);
+                _myHelper.RunBaseViewModelTests(sut);
                 Assert.False(string.IsNullOrWhiteSpace(sut.SourceImg), "You didn't set a SVG source Image");
             }
         }        

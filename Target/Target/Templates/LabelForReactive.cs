@@ -8,26 +8,27 @@ using Xamarin.Forms;
 
 namespace Target.Templates
 {
-    public class LabelForReactive : ContentViewBase<MasterPageItem>
+    public class LabelForReactive : ContentViewBase<BaseListItem>
     {
         Label lbl;
         public LabelForReactive()
         {
             var defaultsFactory = App.Container.Resolve<IDefaultsFactory>();
-            ViewModel = (MasterPageItem)this.BindingContext;
+            ViewModel = (BaseListItem)this.BindingContext;
             lbl = new Label()
             {
                 TextColor = defaultsFactory.GetSideMenuTextColor(),
                 VerticalOptions = LayoutOptions.Center,
                 HorizontalOptions = LayoutOptions.StartAndExpand
             };
-            //lbl.SetBinding(Label.TextProperty, new Binding("Title"));
-            //lbl.SetBinding(Label.FontSizeProperty, new Binding("FontSize"));
 
             this
                 .WhenActivated(
                     disposables =>
                     {
+                        this
+                            .OneWayBind(ViewModel, vm => vm.FontColor, x => x.lbl.TextColor)
+                            .DisposeWith(disposables);
                         this
                             .OneWayBind(ViewModel, vm => vm.Title, x => x.lbl.Text)
                             .DisposeWith(disposables);
