@@ -48,21 +48,17 @@ namespace Target.ViewModels
             // change size after changing the settings.
             MessagingCenter.Subscribe<ISettingsViewModel>(this, "mSettingsFontChanged", (sender) =>
             {
-                var fireandforget2 = Task.Run(() => RunAsync(300));
+                SetItems();
             });
-            var fireandforget = Task.Run(() => RunAsync(0));
+            SetItems();
 
         }
 
-        private async Task RunAsync(int waitTime)
+        private void SetItems()
         {
-
-            await Task.Delay(TimeSpan.FromMilliseconds(waitTime)).ConfigureAwait(false);
             var size = _settingsFactory.GetSettings().FontSize;
             var color = defaultsFactory.GetSideMenuTextColor();
             _items = _items ?? new ReactiveList<BaseListItem>();
-            Device.BeginInvokeOnMainThread(() =>
-            {
                 _items.Clear();
                 _items.Add(new BaseListItem()
                 {
@@ -138,7 +134,6 @@ namespace Target.ViewModels
                     FontSize = size,
                     FontColor = color
                 });
-            });
         }
     }
 }

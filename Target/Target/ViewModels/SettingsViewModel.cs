@@ -78,14 +78,14 @@ namespace Target.ViewModels
         private async Task SetManualFont()
         {
             var rounded = Math.Round((double)FontSize);
-            FontSliderLabel = $"Custom Font Size is {rounded}";
-            // tell the side menu to update
-            MessagingCenter.Send<ISettingsViewModel>(this, "mSettingsFontChanged");
+            FontSliderLabel = $"Custom Font Size is {rounded}";            
             var setting = _settingsFactory.GetSettings();
             setting.IsManualFont = IsManualFontOn;
             if (!IsManualFontOn) FontSize = defaultsFactory.GetFontSize();
-            setting.FontSize = FontSize;
-            var settings = await _settingsService.CreateSetting(setting);            
+            setting.FontSize = FontSize;            
+            var settings = await _settingsService.CreateSetting(setting);
+            // tell the side menu to update
+            MessagingCenter.Send<ISettingsViewModel>(this, "mSettingsFontChanged");
         }
         private async Task SetFontSize()
         {

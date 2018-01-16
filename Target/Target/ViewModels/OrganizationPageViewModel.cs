@@ -38,19 +38,24 @@ namespace Target.ViewModels
             _items = _items ?? new ReactiveList<BaseListItem>();
 
             // this needs to be converted to a service
-            Device.BeginInvokeOnMainThread(() =>
-            {
                 _items.Clear();
                 _items.Add(new BaseListItem()
                 {
-                    Title = "Some Organization Name",
+                    Title = "Some Organization",
                     IconSource = "resource://Target.Resources.ic_public_black_24px.svg",
                     TargetType = typeof(RecentPage),
                     FontSize = defaultsFactory.GetFontSize(),
                     FontColor = Color.Black
                 });
-
-            });
+                _items.Add(new BaseListItem()
+                {
+                    Title = "Organization 2",
+                    IconSource = "resource://Target.Resources.ic_public_black_24px.svg",
+                    TargetType = typeof(RecentPage),
+                    FontSize = defaultsFactory.GetFontSize(),
+                    FontColor = Color.Black
+                });
+            
         }
     }
 }

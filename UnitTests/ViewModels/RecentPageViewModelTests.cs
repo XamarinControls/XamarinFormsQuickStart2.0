@@ -10,7 +10,7 @@ using System.Reactive.Linq;
 namespace UnitTests.ViewModels
 {
 
-    public class MasterListViewModelTests : BaseViewModel
+    public class RecentPageViewModelTests : BaseViewModel
     {
         
         [Fact]
@@ -20,13 +20,13 @@ namespace UnitTests.ViewModels
             {
                 // Arrange - configure the mock
                 _myHelper.SetupMockForViewModels(mock);
-                var sut = mock.Create<MasterListViewModel>();
+                var sut = mock.Create<RecentPageViewModel>();
 
                 // Act
 
-                // Assert    ;
-                Assert.Equal(defaultsFactory.GetFontSize(), sut.FontSize);
-                Assert.NotEmpty(sut.Items);
+                // Assert    
+                _myHelper.RunBaseViewModelTests(sut);
+
             }
         }        
 
