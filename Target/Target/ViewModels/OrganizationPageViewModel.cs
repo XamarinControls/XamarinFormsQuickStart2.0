@@ -35,6 +35,7 @@ namespace Target.ViewModels
         {
             Title = "Organization";
             Greeting = "Organization Page";
+            var fontsize = settingsFactory.GetSettings().FontSize;
             _items = _items ?? new ReactiveList<BaseListItem>();
 
             // this needs to be converted to a service
@@ -44,7 +45,7 @@ namespace Target.ViewModels
                     Title = "Some Organization",
                     IconSource = "resource://Target.Resources.ic_public_black_24px.svg",
                     TargetType = typeof(RecentPage),
-                    FontSize = defaultsFactory.GetFontSize(),
+                    FontSize = fontsize,
                     FontColor = Color.Black
                 });
                 _items.Add(new BaseListItem()
@@ -52,7 +53,7 @@ namespace Target.ViewModels
                     Title = "Organization 2",
                     IconSource = "resource://Target.Resources.ic_public_black_24px.svg",
                     TargetType = typeof(RecentPage),
-                    FontSize = defaultsFactory.GetFontSize(),
+                    FontSize = fontsize,
                     FontColor = Color.Black
                 });
             

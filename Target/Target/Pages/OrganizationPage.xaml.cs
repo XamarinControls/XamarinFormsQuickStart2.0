@@ -78,7 +78,7 @@ namespace Target.Pages
             this
                 .WhenActivated(
                     disposables =>
-                                     {
+                    {
                         Observable.FromEventPattern(
                              ev => viewAction.Clicked += ev,
                              ev => viewAction.Clicked -= ev
@@ -118,21 +118,17 @@ namespace Target.Pages
                             OnTap(x.Sender, x.EventArgs);
                         })
                         .DisposeWith(disposables);
-                                         //listView.ItemSelected += OnSelection;
-                                         //listView.ItemTapped += OnTap;
+
                         this
                             .OneWayBind(ViewModel, vm => vm.Title, x => x.Title)
                             .DisposeWith(disposables);
-                        //this
-                        //    .OneWayBind(ViewModel, vm => vm.Greeting, x => x.lbl.Text)
-                        //    .DisposeWith(disposables);
-                        //this
-                        //    .OneWayBind(this.ViewModel, x => x.FontSize, x => x.lbl.FontSize, vmToViewConverterOverride: bindingIntToDoubleConverter)
-                        //    .DisposeWith(disposables);
+                        this
+                            .OneWayBind(this.ViewModel, x => x.FontSize, x => x.listView.RowHeight, vmToViewConverterOverride: bindingIntToDoubleConverter)
+                            .DisposeWith(disposables);
                         this
                             .OneWayBind(this.ViewModel, x => x.Items, x => x.listView.ItemsSource)
-                                             .DisposeWith(disposables);
-                                     });
+                            .DisposeWith(disposables);
+                    });
             baseLayout.Children.Add(listView);
             Content = baseLayout;
         }
@@ -161,7 +157,7 @@ namespace Target.Pages
         void OnEdit(object sender, EventArgs e)
         {
             var item = (MenuItem)sender;
-            //interactiveListViewCode.items.Remove(item.CommandParameter.ToString());
+            //do something here like send user to edit page
         }
         protected override void OnAppearing()
         {
