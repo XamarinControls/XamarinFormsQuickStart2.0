@@ -79,11 +79,16 @@ namespace UnitTests.ViewModels
                 // when the below command is invoked, it should automatically turn off the switch 
                 // and set the value of the FontSize to the default causing an INotifyPropertyChanged event                
                 //await Assert.PropertyChangedAsync(sut, "FontSize", async () => await sut.IsManualFontOnClicked.Execute().FirstAsync());
+                await Assert.PropertyChangedAsync(sut, "FontSize", async () => await ChangeManualFont(sut));
                 // The value of FontSize should now be back to the default
                 Assert.Equal(sut.FontSize, defaultsFactory.GetFontSize());
             }
         }
-
+        private async Task ChangeManualFont(SettingsViewModel sut)
+        {
+            sut.IsManualFontOn = true;
+            await Task.Delay(TimeSpan.FromMilliseconds(0));
+        }
         [Fact]
         public async Task WhenFontSliderChanged_Occurs_ShouldSetFontSize()
         {
@@ -95,18 +100,14 @@ namespace UnitTests.ViewModels
 
                 // Act
                 sut.FontSize = 30;
-                // couple other ways to execute commands shown below
-                // sut.FontSliderChanged.Execute().Subscribe<Unit>();
-                // Observable.Return(Unit.Default).InvokeCommand(sut.IsManualFontOnClicked);
-                //await sut.FontSliderChanged.Execute().FirstAsync();
                 var settings = _myHelper.GetSettingsFactory();
-
+                await Task.Delay(TimeSpan.FromMilliseconds(1000));
                 // Assert  
                 Assert.Equal(30, settings.GetSettings().FontSize);
             }
         }
         [Fact]
-        public async Task WhenShowConnectionErrors_IsToggledOn_ShouldSetConnectionErrorsToTrue()
+        public void WhenShowConnectionErrors_IsToggledOn_ShouldSetConnectionErrorsToTrue()
         {
             using (var mock = AutoMock.GetLoose())
             {
@@ -118,13 +119,9 @@ namespace UnitTests.ViewModels
                 if (!defaultsFactory.GetShowConnectionErrors())
                 {
                     // turn it on
+                    sut.ShowConnectionErrors = true;
                     //await sut.ShowConnectionErrorsCommand.Execute().FirstAsync();
                 } 
-                else
-                {
-                    //await sut.ShowConnectionErrorsCommand.Execute().FirstAsync();
-                    //await sut.ShowConnectionErrorsCommand.Execute().FirstAsync();
-                }
 
                 var settings = _myHelper.GetSettingsFactory();
 

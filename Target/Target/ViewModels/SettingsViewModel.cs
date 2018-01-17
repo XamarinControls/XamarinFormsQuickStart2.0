@@ -58,7 +58,9 @@ namespace Target.ViewModels
                         .Subscribe());
                 registerDisposable(
                         this.WhenAnyValue(x => x.FontSize)
-                        .Do(x => SetFontSize())
+                        .Do(x => {
+                            SetFontSize();
+                        })
                         .SelectMany(async x => await SetSettings(Settings))
                         .Subscribe());
                 registerDisposable(

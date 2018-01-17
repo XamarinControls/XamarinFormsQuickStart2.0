@@ -13,6 +13,7 @@ using Xamarin.Forms.Xaml;
 //using Plugin.GoogleAnalytics;
 using System.Reactive.Disposables;
 using Target.Templates;
+using System.Reactive.Linq;
 
 namespace Target.Pages
 {
@@ -21,6 +22,8 @@ namespace Target.Pages
     {
         ListView listView;
         StackLayout baseLayout;
+        MenuItem editAction;
+        MenuItem viewAction;
 
         public OrganizationPage()
         {
@@ -28,6 +31,11 @@ namespace Target.Pages
             InitializeComponent();
             ViewModel = (OrganizationPageViewModel)App.Container.Resolve<IOrganizationPageViewModel>();
             var personPage = (Page)App.Container.Resolve<IPersonPage>();
+            viewAction = new MenuItem { Text = "View" };
+            viewAction.SetBinding(MenuItem.CommandParameterProperty, new Binding("."));
+
+            editAction = new MenuItem { Text = "Edit" }; 
+            editAction.SetBinding(MenuItem.CommandParameterProperty, new Binding("."));
             baseLayout = new StackLayout()
             {
                 Orientation = StackOrientation.Vertical,
@@ -50,7 +58,14 @@ namespace Target.Pages
                 stacklayout.Children.Add(ffimg);
 
                 stacklayout.Children.Add(lbl);
-                return new ViewCell { View = stacklayout };
+                var viewCell = new ViewCell();
+                
+                //deleteAction.Clicked += OnDelete;
+
+                viewCell.ContextActions.Add(viewAction);
+                viewCell.ContextActions.Add(editAction);
+                viewCell.View = stacklayout;
+                return viewCell;
             });
             listView = new ListView()
             {
@@ -63,7 +78,48 @@ namespace Target.Pages
             this
                 .WhenActivated(
                     disposables =>
-                    {
+                                     {
+                        Observable.FromEventPattern(
+                             ev => viewAction.Clicked += ev,
+                             ev => viewAction.Clicked -= ev
+                        )
+                        .Subscribe(x =>
+                        {
+                            OnView(x.Sender, x.EventArgs as EventArgs);
+                        })
+                        .DisposeWith(disposables);
+
+                        Observable.FromEventPattern(
+                             ev => editAction.Clicked += ev,
+                             ev => editAction.Clicked -= ev
+                        )
+                        .Subscribe(x =>
+                        {
+                            OnEdit(x.Sender, x.EventArgs as EventArgs);
+                        })
+                        .DisposeWith(disposables);
+
+                        Observable.FromEventPattern<SelectedItemChangedEventArgs>(
+                             ev => listView.ItemSelected += ev,
+                             ev => listView.ItemSelected -= ev
+                        )
+                        .Subscribe(x =>
+                        {
+                            OnSelection(x.Sender, x.EventArgs);
+                        })
+                        .DisposeWith(disposables);
+
+                        Observable.FromEventPattern<ItemTappedEventArgs>(
+                             ev => listView.ItemTapped += ev,
+                             ev => listView.ItemTapped -= ev
+                        )
+                        .Subscribe(x =>
+                        {
+                            OnTap(x.Sender, x.EventArgs);
+                        })
+                        .DisposeWith(disposables);
+                                         //listView.ItemSelected += OnSelection;
+                                         //listView.ItemTapped += OnTap;
                         this
                             .OneWayBind(ViewModel, vm => vm.Title, x => x.Title)
                             .DisposeWith(disposables);
@@ -75,10 +131,37 @@ namespace Target.Pages
                         //    .DisposeWith(disposables);
                         this
                             .OneWayBind(this.ViewModel, x => x.Items, x => x.listView.ItemsSource)
-                            .DisposeWith(disposables);
-                    });
+                                             .DisposeWith(disposables);
+                                     });
             baseLayout.Children.Add(listView);
             Content = baseLayout;
+        }
+        void OnTap(object sender, ItemTappedEventArgs e)
+        {
+            DisplayAlert("Item Tapped", e.Item.ToString(), "Ok");
+        }
+
+        void OnSelection(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null)
+            {
+                return; //ItemSelected is called on deselection, which results in SelectedItem being set to null
+            }
+            DisplayAlert("Item Selected", e.SelectedItem.ToString(), "Ok");
+            //comment out if you want to keep selections
+            ListView lst = (ListView)sender;
+            lst.SelectedItem = null;
+        }
+        void OnView(object sender, EventArgs e)
+        {
+            var item = (MenuItem)sender;
+            //Do something here... e.g. Navigation.pushAsync(new specialPage(item.commandParameter));
+            //page.DisplayAlert("More Context Action", item.CommandParameter + " more context action", 	"OK");
+        }
+        void OnEdit(object sender, EventArgs e)
+        {
+            var item = (MenuItem)sender;
+            //interactiveListViewCode.items.Remove(item.CommandParameter.ToString());
         }
         protected override void OnAppearing()
         {
