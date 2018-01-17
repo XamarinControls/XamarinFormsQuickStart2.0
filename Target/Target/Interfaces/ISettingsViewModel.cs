@@ -11,11 +11,7 @@ namespace Target.Interfaces
         string FontSliderLabel { get; set; }
         int FontSize { get; set; }
         bool IsManualFontOn { get; set; }
-        //bool IsSwitchOn { get; set; }
         bool ShowConnectionErrors { get; set; }
-        ReactiveCommand<Unit, Unit> IsManualFontOnClicked { get; }
-        ReactiveCommand<Unit, Unit> ShowConnectionErrorsCommand { get; }
-        ReactiveCommand<Unit, Unit> FontSliderChanged { get; }
 
     }
 }

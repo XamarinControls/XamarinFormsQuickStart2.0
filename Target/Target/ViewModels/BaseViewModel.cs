@@ -1,6 +1,10 @@
 ﻿using Target.Interfaces;
 using ReactiveUI;
 using System.Threading.Tasks;
+using Target.Models;
+using System.Reactive.Linq;
+using System.Reactive;
+using System;
 
 namespace Target.ViewModels
 {
@@ -10,6 +14,7 @@ namespace Target.ViewModels
         public ISettingsFactory _settingsFactory;
         public ISettingsService _settingsService;
         public readonly IDefaultsFactory defaultsFactory;
+        public Settings Settings { get; set; }
 
         private string title;
         public string Title
@@ -59,7 +64,21 @@ namespace Target.ViewModels
             _settingsFactory = settingsFactory;
             _settingsService = settingsService;
             this.defaultsFactory = defaultsFactory;
-            FontSize = _settingsFactory.GetSettings().FontSize;
+            Settings = _settingsFactory.GetSettings();
+            FontSize = Settings.FontSize;
+            this.WhenActivated(
+            registerDisposable =>
+            {
+                registerDisposable(
+                        this.WhenAnyValue(x => x.FontSize)
+                        .SelectMany(async x => await _settingsService.CreateSetting(Settings))
+                        .Subscribe());
+            });
         }
+        public async Task<Unit> SetSettings(Settings sets)
+        {
+           return await _settingsService.CreateSetting(sets);
+        }
+        
     }
 }

@@ -9,6 +9,8 @@ using Plugin.Connectivity;
 using System;
 using Plugin.Toasts;
 using Xamarin.Forms.Xaml;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace Target.Pages
 {

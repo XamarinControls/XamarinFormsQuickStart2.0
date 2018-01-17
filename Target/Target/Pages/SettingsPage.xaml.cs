@@ -185,29 +185,6 @@ namespace Target.Pages
                             .DisposeWith(disposables);
                         this.Bind(ViewModel, vm => vm.FontSize, x => x.fontSlider.Value, vmToViewConverterOverride: bindingIntToDoubleConverter, viewToVMConverterOverride: bindingDoubleToIntConverter)
                             .DisposeWith(disposables);
-                        //this.fontSlider.Events().ValueChanged
-                        //    .Throttle(TimeSpan.FromMilliseconds(150), RxApp.MainThreadScheduler)
-                        //    .Do((x) =>
-                        //    {
-                        //        var rounded = Math.Round(x.NewValue);
-                        //        fontSliderLabel.Text = $"Custom Font Size is {rounded}";
-                        //        MessagingCenter.Send<ISettingsPage>(this, "mSettingsFontChanged");
-                        //    })
-                        //    .Select(x => Unit.Default)
-                        //    .InvokeCommand(ViewModel.FontSliderChanged)
-                        //    .DisposeWith(disposables);
-                        // If the x.isManualFont.IsToggled binding found a couple lines below is one-way, 
-                        // you have to disable // [XamlCompilation(XamlCompilationOptions.Compile)]
-                        // throughout the entire app for the following switch toggle event to work in UWP.
-                        // Currently the x.isManualFont.IsToggled binding is two-way so it's ok to enable xaml compilation.
-                        // Furthermore, if you try and remove the x.isManualFont.IsToggle binding altogether and force the 
-                        // changing of the IsManualFontOn using the IsManualFontOnClicked delegate, then for some reason
-                        // the x.isManualFont.IsToggled won't update the screen and toggle/untoggle the control
-                        this.isManualFont.Events().Toggled
-                            .Throttle(TimeSpan.FromMilliseconds(150), RxApp.MainThreadScheduler)
-                            .Select(x => Unit.Default)
-                            .InvokeCommand(ViewModel.IsManualFontOnClicked)
-                            .DisposeWith(disposables);
                         this
                             .OneWayBind(this.ViewModel, x => x.FontSize, x => x.isManualFontLabel.FontSize, vmToViewConverterOverride: bindingIntToDoubleConverter)
                             .DisposeWith(disposables);
@@ -228,11 +205,6 @@ namespace Target.Pages
                             .DisposeWith(disposables);
                         this
                             .Bind(this.ViewModel, x => x.ShowConnectionErrors, x => x.showConnectionErrors.IsToggled)
-                            .DisposeWith(disposables);
-                        this.BindCommand(
-                            this.ViewModel,
-                            x => x.ShowConnectionErrorsCommand,
-                            x => x.showConnectionErrors, nameof(showConnectionErrors.Toggled))
                             .DisposeWith(disposables);
                     });
                                     

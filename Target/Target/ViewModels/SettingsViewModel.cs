@@ -13,7 +13,6 @@ namespace Target.ViewModels
 {
     public class SettingsViewModel : BaseViewModel, ISettingsViewModel
     {
-        private bool isShowErrorsOnState;
 
         string fontSliderLabel;
         public string FontSliderLabel
@@ -35,19 +34,6 @@ namespace Target.ViewModels
             get { return showConnectionErrors; }
             set { this.RaiseAndSetIfChanged(ref showConnectionErrors, value); }
         }
-
-       
-        private readonly ReactiveCommand<Unit, Unit> showConnectionErrorsCommand;
-        public ReactiveCommand<Unit, Unit> ShowConnectionErrorsCommand => this.showConnectionErrorsCommand;
-        
-        public ReactiveCommand<Unit, Unit> IsManualFontOnClicked
-        {
-            get;
-        }
-        public ReactiveCommand<Unit, Unit> FontSliderChanged { get; }
-
-        //private readonly ReactiveCommand fontSliderChanged;
-        //public ReactiveCommand FontSliderChanged => this.fontSliderChanged;
         public SettingsViewModel(
             ISettingsService settingsService,
             ISettingsFactory settingsFactory,
@@ -58,57 +44,51 @@ namespace Target.ViewModels
         {
             Title = "Settings";
             Greeting = "Settings Page";
-            
-            var fireandforget = Task.Run(async () => await InitializeSettings());
-            this.FontSliderChanged = ReactiveCommand.CreateFromTask(SetFontSize);
-            this.IsManualFontOnClicked = ReactiveCommand.CreateFromTask(SetManualFont);
-            this.showConnectionErrorsCommand = ReactiveCommand.CreateFromTask(SetShowConnectionErrors);
+
+            isManualFontOn = Settings.IsManualFont;
+            ShowConnectionErrors = Settings.ShowConnectionErrors;
 
             this.WhenActivated(
             registerDisposable =>
             {
                 registerDisposable(
-                    this.WhenAnyValue(x => x.FontSize)
-                    .Select(x => Unit.Default)
-                    .InvokeCommand(IsManualFontOnClicked)
-                    );
+                        this.WhenAnyValue(x => x.ShowConnectionErrors)
+                        .Do(x => SetShowConnectionErrors())
+                        .SelectMany(async x => await SetSettings(Settings))
+                        .Subscribe());
+                registerDisposable(
+                        this.WhenAnyValue(x => x.FontSize)
+                        .Do(x => SetFontSize())
+                        .SelectMany(async x => await SetSettings(Settings))
+                        .Subscribe());
+                registerDisposable(
+                        this.WhenAnyValue(x => x.IsManualFontOn)
+                        .Do(x => SetManualFont())
+                        .SelectMany(async x => await SetSettings(Settings))
+                        .Subscribe());
             });
 
         }
-        private async Task SetManualFont()
+        private void SetManualFont()
         {
             var rounded = Math.Round((double)FontSize);
-            FontSliderLabel = $"Custom Font Size is {rounded}";            
-            var setting = _settingsFactory.GetSettings();
-            setting.IsManualFont = IsManualFontOn;
+            FontSliderLabel = $"Custom Font Size is {rounded}";  
+            Settings.IsManualFont = IsManualFontOn;
             if (!IsManualFontOn) FontSize = defaultsFactory.GetFontSize();
-            setting.FontSize = FontSize;            
-            var settings = await _settingsService.CreateSetting(setting);
+            Settings.FontSize = FontSize;            
             // tell the side menu to update
             MessagingCenter.Send<ISettingsViewModel>(this, "mSettingsFontChanged");
         }
-        private async Task SetFontSize()
+        private void SetFontSize()
         {
-            var setting = _settingsFactory.GetSettings();
-            var mydouble = (double)FontSize;
-            var rounded = (int)Math.Round(mydouble);
-            setting.FontSize = rounded;
-            var settings = await _settingsService.CreateSetting(setting);
+            var rounded = (int)Math.Round((double)FontSize);
+            Settings.FontSize = rounded;
+            MessagingCenter.Send<ISettingsViewModel>(this, "mSettingsFontChanged");
         }
-        private async Task SetShowConnectionErrors()
-        {                        
-            var setting = _settingsFactory.GetSettings();
-            isShowErrorsOnState = !isShowErrorsOnState;
-            setting.ShowConnectionErrors = isShowErrorsOnState;
-            var settings = await _settingsService.CreateSetting(setting);
-            
+        private void SetShowConnectionErrors()
+        {     
+            Settings.ShowConnectionErrors = ShowConnectionErrors;
         }
-        private async Task InitializeSettings()
-        {
-            var settings = await _settingsService.GetSettings();
-            isManualFontOn = settings.IsManualFont;
-            ShowConnectionErrors = settings.ShowConnectionErrors;
-            isShowErrorsOnState = ShowConnectionErrors;
-        }
+       
     }
 }
