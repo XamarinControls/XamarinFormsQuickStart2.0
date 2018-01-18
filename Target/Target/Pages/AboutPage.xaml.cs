@@ -15,11 +15,10 @@ using Xamarin.Forms.Xaml;
 
 namespace Target.Pages
 {
+    // I have to disable all xml compilation or I can't hit breakpoints while degugging.  Enable for production
     // [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AboutPage : ContentPageBase<AboutPageViewModel>, IAboutPage
     {
-        Page termspage;
-        Page policypage;
         public AboutPage()
         {
             InitializeComponent();
@@ -53,13 +52,13 @@ namespace Target.Pages
                         this.btnPolicy.Events().Clicked.Throttle(TimeSpan.FromMilliseconds(150), RxApp.MainThreadScheduler)
                             .Subscribe(x =>
                             {
-                                policypage = (Page)App.Container.Resolve<IPolicyPage>();
+                                var policypage = (Page)App.Container.Resolve<IPolicyPage>();
                                 Navigation.PushAsync(policypage);
                             }).DisposeWith(disposables);
                         this.btnTerms.Events().Clicked.Throttle(TimeSpan.FromMilliseconds(150), RxApp.MainThreadScheduler)
                             .Subscribe(x =>
                             {
-                                termspage = (Page)App.Container.Resolve<ITermsPage>();
+                                var termspage = (Page)App.Container.Resolve<ITermsPage>();
                                 Navigation.PushAsync(termspage);
                             }).DisposeWith(disposables);
                         this

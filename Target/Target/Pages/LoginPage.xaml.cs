@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Target.Pages
 {
-
+    // I have to disable all xml compilation or I can't hit breakpoints while degugging.  Enable for production
     // [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPageBase<LoginViewModel>, ILoginPage
     {
