@@ -22,7 +22,7 @@ namespace Target.Pages
         {
             InitializeComponent();
             ViewModel = (PersonPageViewModel)App.Container.Resolve<IPersonPageViewModel>();
-            var activitiesPage = (Page)App.Container.Resolve<IActivitiesPage>();
+            
             this
                 .WhenActivated(
                     disposables =>
@@ -40,7 +40,11 @@ namespace Target.Pages
                             .OneWayBind(this.ViewModel, x => x.FontSize, x => x.btnActivities.FontSize, vmToViewConverterOverride: bindingIntToDoubleConverter)
                             .DisposeWith(disposables);
                         this.btnActivities.Events().Clicked
-                            .Subscribe(async (_) => await Navigation.PushAsync(activitiesPage))
+                            .Subscribe(async (_) =>
+                            {
+                                var activitiesPage = (Page)App.Container.Resolve<IActivitiesPage>();
+                                await Navigation.PushAsync(activitiesPage);
+                            })
                             .DisposeWith(disposables);
                     });
         }

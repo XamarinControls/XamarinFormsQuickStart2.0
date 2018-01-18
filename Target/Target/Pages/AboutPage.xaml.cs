@@ -24,12 +24,6 @@ namespace Target.Pages
         {
             InitializeComponent();
             ViewModel = (AboutPageViewModel)App.Container.Resolve<IAboutPageViewModel>();
-            
-            if (ViewModel.defaultsFactory.GetIsTermsPageEnabled())
-            {
-                policypage = (Page)App.Container.Resolve<IPolicyPage>();
-                termspage = (Page)App.Container.Resolve<ITermsPage>();
-            }
 
             this
                 .WhenActivated(
@@ -57,9 +51,17 @@ namespace Target.Pages
                             .OneWayBind(ViewModel, vm => vm.IsTermsOn, x => x.btnPolicy.IsVisible)
                             .DisposeWith(disposables);
                         this.btnPolicy.Events().Clicked.Throttle(TimeSpan.FromMilliseconds(150), RxApp.MainThreadScheduler)
-                            .Subscribe(x => Navigation.PushAsync(policypage)).DisposeWith(disposables);
+                            .Subscribe(x =>
+                            {
+                                policypage = (Page)App.Container.Resolve<IPolicyPage>();
+                                Navigation.PushAsync(policypage);
+                            }).DisposeWith(disposables);
                         this.btnTerms.Events().Clicked.Throttle(TimeSpan.FromMilliseconds(150), RxApp.MainThreadScheduler)
-                            .Subscribe(x => Navigation.PushAsync(termspage)).DisposeWith(disposables);
+                            .Subscribe(x =>
+                            {
+                                termspage = (Page)App.Container.Resolve<ITermsPage>();
+                                Navigation.PushAsync(termspage);
+                            }).DisposeWith(disposables);
                         this
                             .OneWayBind(ViewModel, vm => vm.Version, x => x.lblVersion.Text)
                             .DisposeWith(disposables);

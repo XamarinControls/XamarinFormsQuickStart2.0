@@ -21,9 +21,7 @@ namespace Target.Pages
         {
             InitializeComponent();
             ViewModel = (HomePageViewModel)App.Container.Resolve<IHomePageViewModel>();
-            var orgPage = (Page)App.Container.Resolve<IOrganizationPage>();
-            var personPage = (Page)App.Container.Resolve<IPersonPage>();
-            var recentPage = (Page)App.Container.Resolve<IRecentPage>();
+            
             this
                 .WhenActivated(
                     disposables =>
@@ -41,13 +39,23 @@ namespace Target.Pages
                         this.OneWayBind(ViewModel, vm => vm.FontSize, view => view.ffimage.WidthRequest, x => GetSquaredImageSize(x))
                             .DisposeWith(disposables);
                         this.btnPerson.Events().Clicked
-                            .Subscribe(async (_) => await Navigation.PushAsync(personPage))
+                            .Subscribe(async (_) => {
+                                var personPage = (Page)App.Container.Resolve<IPersonPage>();
+                                await Navigation.PushAsync(personPage); })
                             .DisposeWith(disposables);
                         this.btnOrg.Events().Clicked
-                            .Subscribe(async (_) => await Navigation.PushAsync(orgPage))
+                            .Subscribe(async (_) =>
+                            {
+                                var orgPage = (Page)App.Container.Resolve<IOrganizationPage>();
+                                await Navigation.PushAsync(orgPage);
+                            })
                             .DisposeWith(disposables);
                         this.btnRecent.Events().Clicked
-                            .Subscribe(async (_) => await Navigation.PushAsync(recentPage))
+                            .Subscribe(async (_) =>
+                            {
+                                var recentPage = (Page)App.Container.Resolve<IRecentPage>();
+                                await Navigation.PushAsync(recentPage);
+                            })
                             .DisposeWith(disposables);
                     });
         }

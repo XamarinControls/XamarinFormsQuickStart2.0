@@ -30,7 +30,6 @@ namespace Target.Pages
 
             InitializeComponent();
             ViewModel = (OrganizationPageViewModel)App.Container.Resolve<IOrganizationPageViewModel>();
-            var personPage = (Page)App.Container.Resolve<IPersonPage>();
             viewAction = new MenuItem { Text = "View" };
             viewAction.SetBinding(MenuItem.CommandParameterProperty, new Binding("."));
 
