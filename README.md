@@ -1,4 +1,5 @@
 # Xamarin.Forms ReactiveUI Quickstart using .NetStandard 2.0
+### I've abandoned ReactiveUI. [here](https://github.com/helzgate/XamarinStarter) is a Xamarin Forms 3.0 starter with much less bloat
 ### Legacy PCL version found [here](https://github.com/helzgate/XamarinFormsQuickStart)
 
 ## Using:
